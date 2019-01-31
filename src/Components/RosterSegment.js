@@ -12,8 +12,29 @@ const holdingImage = () => {
         ".svg"
     : placeholderUrl;
 };
+const quarterBackHoldingImage = props => {
+  return props.selectedQB
+    ? "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
+        props.selectedQB +
+        ".png"
+    : placeholderUrl;
+};
+const wideReceiverHoldingImage = props => {
+  return props.selectedWR
+    ? "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
+        props.selectedWR +
+        ".png"
+    : placeholderUrl;
+};
+const runningBackHoldingImage = props => {
+  return props.selectedRB
+    ? "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
+        props.selectedRB +
+        ".png"
+    : placeholderUrl;
+};
 
-const SegmentExamplePlaceholderGrid = () => (
+const SegmentExamplePlaceholderGrid = props => (
   <Segment placeholder>
     <Grid columns={4} textAlign="center" divided>
       <Grid.Row verticalAlign="middle">
@@ -23,15 +44,15 @@ const SegmentExamplePlaceholderGrid = () => (
         </Grid.Column>
         <Grid.Column>
           <Header>Quarterback</Header>
-          <Image src={placeholderUrl} centered />
+          <Image src={quarterBackHoldingImage(props)} centered />
         </Grid.Column>
         <Grid.Column>
           <Header>Wide Receiver</Header>
-          <Image src={placeholderUrl} centered />
+          <Image src={wideReceiverHoldingImage(props)} centered />
         </Grid.Column>
         <Grid.Column>
           <Header>Running Back</Header>
-          <Image src={placeholderUrl} centered />
+          <Image src={runningBackHoldingImage(props)} centered />
         </Grid.Column>
       </Grid.Row>
     </Grid>

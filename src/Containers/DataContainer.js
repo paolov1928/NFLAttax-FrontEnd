@@ -13,7 +13,10 @@ class DataContainer extends Component {
     fantasyData: CompiledFantasyData.allNFLFantasyData.players,
     top5PlayersByTeam: [],
     additionalDataForTop5: [],
-    singlePlayerData: SinglePlayerData.singlePlayerData
+    singlePlayerData: SinglePlayerData.singlePlayerData,
+    selectedQB: "",
+    selectedWR: "",
+    selectedRB: ""
   };
 
   componentDidMount() {
@@ -92,17 +95,42 @@ class DataContainer extends Component {
     })[0];
   };
 
+  filterIfPickHasBeenMade = () => {
+    // if they have made a pick then show that team's players.. should always happen but dont want it to break.
+    return localStorage.getItem("Pick")
+      ? this.state.top5PlayersByTeam.filter(
+          p => p.teamAbbr === localStorage.getItem("Pick")
+        )
+      : this.state.top5PlayersByTeam;
+  };
+
+  selectPlayer = (position, esbid) => {
+    // Eventually will want to feed up a whole compiled object for player
+    if (position === "QB") {
+      this.setState({ selectedQB: esbid });
+    } else if (position === "WR") {
+      this.setState({ selectedWR: esbid });
+    } else {
+      this.setState({ selectedRB: esbid });
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
         <h1>Player Roster</h1>
-        <RosterSegment />
-        <Card.Group itemsPerRow={4}>
-          {this.state.top5PlayersByTeam.map(p => (
+        <RosterSegment
+          selectedQB={this.state.selectedQB}
+          selectedWR={this.state.selectedWR}
+          selectedRB={this.state.selectedRB}
+        />
+        <Card.Group itemsPerRow={5}>
+          {this.filterIfPickHasBeenMade().map(p => (
             <NFLPlayerCard
               {...p}
               key={p.id}
               addData={this.filterAdditionalDataForThatCard(p.gsisPlayerId)}
+              selectPlayer={this.selectPlayer}
             />
           ))}
         </Card.Group>

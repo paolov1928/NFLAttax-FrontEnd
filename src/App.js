@@ -24,6 +24,8 @@ class App extends Component {
       currentUser: false
     });
     localStorage.removeItem("token");
+    localStorage.removeItem("Pick");
+    localStorage.removeItem("Opponent");
   };
 
   render() {
