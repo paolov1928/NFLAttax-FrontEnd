@@ -8,11 +8,7 @@ import RosterSegment from "../Components/RosterSegment";
 
 class PlayerSelectionContainer extends Component {
   state = {
-    entire2018TeamData: CompiledTeamData.allNFLTeamData,
-    entire2018PlayerLevelData: [],
-    entire2018selectedPlayerData: SinglePlayerData.singlePlayerData,
-
-    fantasyData: CompiledFantasyData.allNFLFantasyData.players,
+    additionalDataForTop5Players: SinglePlayerData.singlePlayerData,
     top5PlayersByTeamFantasyData: [],
 
     selectedQB: "",
@@ -21,18 +17,11 @@ class PlayerSelectionContainer extends Component {
   };
 
   componentDidMount() {
-    this.gettingPlayersFromEntire2018Data();
     this.gettingTopPlayersFromFantasyData();
   }
 
-  gettingPlayersFromEntire2018Data = () => {
-    const teams = this.state.entire2018TeamData;
-    const entire2018PlayerLevelData = teams.map(t => t.players).flat();
-    this.setState({ entire2018PlayerLevelData: entire2018PlayerLevelData });
-  };
-
   gettingTopPlayersFromFantasyData = () => {
-    const fantasyData = this.state.fantasyData;
+    const fantasyData = CompiledFantasyData.allNFLFantasyData.players;
     fantasyData.sort((a, b) => b.seasonPts - a.seasonPts);
     let teams = [...new Set(fantasyData.map(p => p.teamAbbr))];
     teams.splice(teams.indexOf(""), 1);
@@ -64,7 +53,7 @@ class PlayerSelectionContainer extends Component {
 
   filterAdditionalDataForThatCard = gsis => {
     // This filters down the additional data to that one player... JOSH GORDON IS missing
-    return this.state.entire2018selectedPlayerData.filter(addPData => {
+    return this.state.additionalDataForTop5Players.filter(addPData => {
       if (addPData.references.find(o => o.origin === "gsis" && o.id === gsis)) {
         return true;
       }
