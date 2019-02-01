@@ -6,12 +6,12 @@ import { Card, Button } from "semantic-ui-react";
 import NFLPlayerCard from "../Components/NFLPlayerCard";
 import RosterSegment from "../Components/RosterSegment";
 
-class DataContainer extends Component {
+class PlayerSelectionContainer extends Component {
   state = {
-    teams: CompiledTeamData.allNFLTeamData,
-    allPlayers: [],
+    entire2018TeamData: CompiledTeamData.allNFLTeamData,
+    entire2018PlayerLevelData: [],
     fantasyData: CompiledFantasyData.allNFLFantasyData.players,
-    top5PlayersByTeam: [],
+    top5PlayersByTeamFantasyData: [],
     additionalDataForTop5: [],
     singlePlayerData: SinglePlayerData.singlePlayerData,
     selectedQB: "",
@@ -20,14 +20,14 @@ class DataContainer extends Component {
   };
 
   componentDidMount() {
-    this.gettingPlayersFromTeamData();
+    this.gettingPlayersFromEntire2018Data();
     this.gettingTopPlayersFromFantasyData();
   }
 
-  gettingPlayersFromTeamData = () => {
-    const teams = this.state.teams;
-    const allPlayers = teams.map(t => t.players).flat();
-    this.setState({ allPlayers: allPlayers });
+  gettingPlayersFromEntire2018Data = () => {
+    const teams = this.state.entire2018TeamData;
+    const entire2018PlayerLevelData = teams.map(t => t.players).flat();
+    this.setState({ entire2018PlayerLevelData: entire2018PlayerLevelData });
   };
 
   gettingTopPlayersFromFantasyData = () => {
@@ -59,20 +59,19 @@ class DataContainer extends Component {
     }
     const top5Final = top5ByTeam.flat();
     this.setState(
-      { top5PlayersByTeam: top5Final },
+      { top5PlayersByTeamFantasyData: top5Final },
       this.filterPlayersFromTeamDataToTop5(top5Final)
     );
     // Had to get the above to run async as dependent on top5
   };
 
   filterPlayersFromTeamDataToTop5 = top5Final => {
-    // const top5 = this.state.top5PlayersByTeam
-    const teams = this.state.teams;
-    const allPlayers = teams.map(t => t.players).flat();
+    const teams = this.state.entire2018TeamData;
+    const entire2018PlayerLevelData = teams.map(t => t.players).flat();
     const allGSISIds = top5Final.map(p => p.gsisPlayerId);
     // The below is missing 1 player....
     // Essentially, the below trys to pull out player data for all of those players that we have cards for
-    const additionalDataForTop5 = allPlayers.filter(p => {
+    const additionalDataForTop5 = entire2018PlayerLevelData.filter(p => {
       if (p.references) {
         if (
           p.references.find(
@@ -98,10 +97,10 @@ class DataContainer extends Component {
   filterIfPickHasBeenMade = () => {
     // if they have made a pick then show that team's players.. should always happen but dont want it to break.
     return localStorage.getItem("Pick")
-      ? this.state.top5PlayersByTeam.filter(
+      ? this.state.top5PlayersByTeamFantasyData.filter(
           p => p.teamAbbr === localStorage.getItem("Pick")
         )
-      : this.state.top5PlayersByTeam;
+      : this.state.top5PlayersByTeamFantasyData;
   };
 
   selectPlayer = (position, esbid) => {
@@ -148,4 +147,4 @@ class DataContainer extends Component {
   }
 }
 
-export default DataContainer;
+export default PlayerSelectionContainer;

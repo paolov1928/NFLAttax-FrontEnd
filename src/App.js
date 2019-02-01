@@ -4,7 +4,7 @@ import PickTeamOrOpponent from "./Components/PickTeamOrOpponent";
 import Welcome from "./Components/Welcome";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 // import 'semantic-ui-css/semantic.min.css'
-import DataContainer from "./Containers/DataContainer";
+import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer";
 import BattleContainer from "./Containers/BattleContainer";
 import Game from "./Game-Logic/1game";
 import Player from "./Game-Logic/1player";
@@ -74,7 +74,10 @@ class App extends Component {
             <Route
               path="/Teams"
               component={routerProps => (
-                <DataContainer {...routerProps} createGame={this.createGame} />
+                <PlayerSelectionContainer
+                  {...routerProps}
+                  createGame={this.createGame}
+                />
               )}
             />
             <Route
