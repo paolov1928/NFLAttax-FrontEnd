@@ -36,9 +36,9 @@ class Login extends Component {
     });
   };
 
-  randomFootballGIF = (number = 50) => {
+  randomFootballGIF = (query = "NFL", number = 50) => {
     let randomNumber = Math.floor(Math.random() * number);
-    API.randomGIF(number).then(data =>
+    API.randomGIF(query, number).then(data =>
       this.setState({
         randomGIF: data.data[randomNumber].images.original.url
       })

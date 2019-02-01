@@ -38,9 +38,11 @@ class API {
     }).then(resp => resp.json());
   }
 
-  static randomGIF(number) {
+  static randomGIF(query, number) {
     return fetch(
-      "https://api.giphy.com/v1/gifs/search?q=NFL&api_key=" +
+      "https://api.giphy.com/v1/gifs/search?q=" +
+        query +
+        "&api_key=" +
         process.env.REACT_APP_GIPHY_API_KEY +
         "&limit=" +
         number

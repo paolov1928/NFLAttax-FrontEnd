@@ -31,9 +31,13 @@ class App extends Component {
     localStorage.removeItem("Opponent");
   };
 
-  createGame = props => {
-    console.log(props);
-    if (!props.selectedQB || !props.selectedRB || !props.selectedWR) {
+  createGame = playerSelectionContainerState => {
+    console.log(playerSelectionContainerState);
+    if (
+      !playerSelectionContainerState.selectedQB ||
+      !playerSelectionContainerState.selectedRB ||
+      !playerSelectionContainerState.selectedWR
+    ) {
       window.alert("pick again");
     } else {
       let game = new Game();
@@ -41,9 +45,16 @@ class App extends Component {
       computer.team = localStorage.getItem("Opponent");
       let player = new Player("Player");
       player.team = localStorage.getItem("Pick");
-      player.qb = props.selectedQB;
-      player.wr = props.selectedWR;
-      player.rb = props.selectedRB;
+      // The below is adding that players fantasy data object to the game instance
+      player.qb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
+        p => p.esbid === playerSelectionContainerState.selectedQB
+      );
+      player.wr = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
+        p => p.esbid === playerSelectionContainerState.selectedWR
+      );
+      player.rb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
+        p => p.esbid === playerSelectionContainerState.selectedRB
+      );
       game.addPlayer(computer);
       game.addPlayer(player);
       this.setState({ currentGame: game });
