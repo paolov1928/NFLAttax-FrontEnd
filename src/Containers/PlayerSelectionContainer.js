@@ -10,10 +10,11 @@ class PlayerSelectionContainer extends Component {
   state = {
     entire2018TeamData: CompiledTeamData.allNFLTeamData,
     entire2018PlayerLevelData: [],
+    entire2018selectedPlayerData: SinglePlayerData.singlePlayerData,
+
     fantasyData: CompiledFantasyData.allNFLFantasyData.players,
     top5PlayersByTeamFantasyData: [],
-    additionalDataForTop5: [],
-    singlePlayerData: SinglePlayerData.singlePlayerData,
+
     selectedQB: "",
     selectedWR: "",
     selectedRB: ""
@@ -58,36 +59,12 @@ class PlayerSelectionContainer extends Component {
       );
     }
     const top5Final = top5ByTeam.flat();
-    this.setState(
-      { top5PlayersByTeamFantasyData: top5Final },
-      this.filterPlayersFromTeamDataToTop5(top5Final)
-    );
-    // Had to get the above to run async as dependent on top5
-  };
-
-  filterPlayersFromTeamDataToTop5 = top5Final => {
-    const teams = this.state.entire2018TeamData;
-    const entire2018PlayerLevelData = teams.map(t => t.players).flat();
-    const allGSISIds = top5Final.map(p => p.gsisPlayerId);
-    // The below is missing 1 player....
-    // Essentially, the below trys to pull out player data for all of those players that we have cards for
-    const additionalDataForTop5 = entire2018PlayerLevelData.filter(p => {
-      if (p.references) {
-        if (
-          p.references.find(
-            o => o.origin === "gsis" && allGSISIds.includes(o.id)
-          )
-        ) {
-          return true;
-        }
-      }
-    });
-    this.setState({ additionalDataForTop5: additionalDataForTop5 });
+    this.setState({ top5PlayersByTeamFantasyData: top5Final });
   };
 
   filterAdditionalDataForThatCard = gsis => {
     // This filters down the additional data to that one player... JOSH GORDON IS missing
-    return this.state.singlePlayerData.filter(addPData => {
+    return this.state.entire2018selectedPlayerData.filter(addPData => {
       if (addPData.references.find(o => o.origin === "gsis" && o.id === gsis)) {
         return true;
       }
