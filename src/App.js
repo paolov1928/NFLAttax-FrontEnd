@@ -6,10 +6,13 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 // import 'semantic-ui-css/semantic.min.css'
 import DataContainer from "./Containers/DataContainer";
 import BattleContainer from "./Containers/BattleContainer";
+import Game from "./Game-Logic/1game";
+import Player from "./Game-Logic/1player";
 
 class App extends Component {
   state = {
-    currentUser: false
+    currentUser: false,
+    currentGame: null
   };
 
   signin = (user, token) => {
@@ -26,6 +29,25 @@ class App extends Component {
     localStorage.removeItem("token");
     localStorage.removeItem("Pick");
     localStorage.removeItem("Opponent");
+  };
+
+  createGame = props => {
+    console.log(props);
+    if (!props.selectedQB || !props.selectedRB || !props.selectedWR) {
+      window.alert("pick again");
+    } else {
+      let game = new Game();
+      let computer = new Player("Computer");
+      computer.team = localStorage.getItem("Opponent");
+      let player = new Player("Player");
+      player.team = localStorage.getItem("Pick");
+      player.qb = props.selectedQB;
+      player.wr = props.selectedWR;
+      player.rb = props.selectedRB;
+      game.addPlayer(computer);
+      game.addPlayer(player);
+      this.setState({ currentGame: game });
+    }
   };
 
   render() {
@@ -51,7 +73,9 @@ class App extends Component {
             />
             <Route
               path="/Teams"
-              component={routerProps => <DataContainer {...routerProps} />}
+              component={routerProps => (
+                <DataContainer {...routerProps} createGame={this.createGame} />
+              )}
             />
             <Route
               path="/Login"

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as CompiledTeamData from "../Data/CompiledTeamData";
 import * as CompiledFantasyData from "../Data/AllNflFantasyData";
 import * as SinglePlayerData from "../Data/singlePlayerData";
-import { Card } from "semantic-ui-react";
+import { Card, Button } from "semantic-ui-react";
 import NFLPlayerCard from "../Components/NFLPlayerCard";
 import RosterSegment from "../Components/RosterSegment";
 
@@ -123,7 +123,16 @@ class DataContainer extends Component {
           selectedQB={this.state.selectedQB}
           selectedWR={this.state.selectedWR}
           selectedRB={this.state.selectedRB}
+          createGame={this.props.createGame}
         />
+        <Button
+          size="big"
+          color="red"
+          attached="bottom"
+          onClick={() => this.props.createGame(this.state)}
+        >
+          Let's Play
+        </Button>
         <Card.Group itemsPerRow={5}>
           {this.filterIfPickHasBeenMade().map(p => (
             <NFLPlayerCard

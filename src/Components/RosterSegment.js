@@ -35,7 +35,7 @@ const runningBackHoldingImage = props => {
 };
 
 const SegmentExamplePlaceholderGrid = props => (
-  <Segment placeholder>
+  <Segment placeholder attached>
     <Grid columns={4} textAlign="center" divided>
       <Grid.Row verticalAlign="middle">
         <Grid.Column>
@@ -47,12 +47,12 @@ const SegmentExamplePlaceholderGrid = props => (
           <Image src={quarterBackHoldingImage(props)} centered />
         </Grid.Column>
         <Grid.Column>
-          <Header>Wide Receiver</Header>
-          <Image src={wideReceiverHoldingImage(props)} centered />
-        </Grid.Column>
-        <Grid.Column>
           <Header>Running Back</Header>
           <Image src={runningBackHoldingImage(props)} centered />
+        </Grid.Column>
+        <Grid.Column>
+          <Header>Wide Receiver</Header>
+          <Image src={wideReceiverHoldingImage(props)} centered />
         </Grid.Column>
       </Grid.Row>
     </Grid>
