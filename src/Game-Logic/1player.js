@@ -7,7 +7,7 @@ class Player {
     this.rb = null;
   }
 
-  computerAssignPlayers = () => {
+  computerAssignPlayers = (team, data) => {
     return this.name.length;
   };
 }

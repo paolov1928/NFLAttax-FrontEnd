@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import * as CompiledTeamData from "../Data/CompiledTeamData";
 import * as CompiledFantasyData from "../Data/AllNflFantasyData";
 import * as SinglePlayerData from "../Data/singlePlayerData";
 import { Card, Button } from "semantic-ui-react";

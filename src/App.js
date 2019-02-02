@@ -31,8 +31,16 @@ class App extends Component {
     localStorage.removeItem("Opponent");
   };
 
+  filterAdditionalDataForThatCard = (gsis, addData) => {
+    // This filters down the additional data to that one player... JOSH GORDON IS missing
+    return addData.filter(addPData => {
+      if (addPData.references.find(o => o.origin === "gsis" && o.id === gsis)) {
+        return true;
+      }
+    })[0];
+  };
+
   createGame = playerSelectionContainerState => {
-    console.log(playerSelectionContainerState);
     if (
       !playerSelectionContainerState.selectedQB ||
       !playerSelectionContainerState.selectedRB ||
@@ -49,11 +57,32 @@ class App extends Component {
       player.qb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
         p => p.esbid === playerSelectionContainerState.selectedQB
       );
+      const qbGSIS = player.qb[0].gsisPlayerId;
+      player.qb.push(
+        this.filterAdditionalDataForThatCard(
+          qbGSIS,
+          playerSelectionContainerState.additionalDataForTop5Players
+        )
+      );
       player.wr = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
         p => p.esbid === playerSelectionContainerState.selectedWR
       );
+      const wrGSIS = player.wr[0].gsisPlayerId;
+      player.wr.push(
+        this.filterAdditionalDataForThatCard(
+          wrGSIS,
+          playerSelectionContainerState.additionalDataForTop5Players
+        )
+      );
       player.rb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
         p => p.esbid === playerSelectionContainerState.selectedRB
+      );
+      const rbGSIS = player.rb[0].gsisPlayerId;
+      player.rb.push(
+        this.filterAdditionalDataForThatCard(
+          rbGSIS,
+          playerSelectionContainerState.additionalDataForTop5Players
+        )
       );
       game.addPlayer(computer);
       game.addPlayer(player);
@@ -134,3 +163,16 @@ export default App;
 // the below was in the render:
 // const imgUrl = "https://gamesonthelawn.com.au/wp-content/uploads/2016/02/Grass-Background-image.jpg"
 // <div style = {{ backgroundImage: 'url(' + imgUrl + ')'}}>
+
+// populatePlayerPositionArrays = (position) => {
+//   player.position = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
+//     p => p.esbid === playerSelectionContainerState.[`selected${position}`]
+//   );
+//   const GSIS = player.position[0].gsisPlayerId;
+//   player.position.push(
+//     this.filterAdditionalDataForThatCard(
+//       GSIS,
+//       playerSelectionContainerState.additionalDataForTop5Players
+//     )
+//   );
+// }
