@@ -5,7 +5,9 @@ import Welcome from "./Components/Welcome";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 // import 'semantic-ui-css/semantic.min.css'
 import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer";
-import BattleContainer from "./Containers/BattleContainer";
+import QBBattleContainer from "./Containers/QBBattleContainer";
+import WRBattleContainer from "./Containers/WRBattleContainer";
+import RBBattleContainer from "./Containers/RBBattleContainer";
 import Game from "./Game-Logic/1game";
 import Player from "./Game-Logic/1player";
 
@@ -108,14 +110,36 @@ class App extends Component {
           <Link to="/Pick">Pick your team!</Link>..
           <Link to="/Opponent">Pick your opponent!</Link>..
           <Link to="/Teams">Select your Players!</Link>..
-          <Link to="/Battle">Battle your Teams!</Link>..
+          <Link to="/QBBattle">Battle your QBs!</Link>..
+          <Link to="/WRBattle">Battle your WRs!</Link>..
+          <Link to="/RBBattle">Battle your RBs!</Link>..
           <button onClick={this.signOut}>SignOut</button>
           <hr />
           <Switch>
             <Route
-              path="/Battle"
+              path="/QBBattle"
               component={routerProps => (
-                <BattleContainer
+                <QBBattleContainer
+                  {...routerProps}
+                  currentUser={currentUser}
+                  currentGame={currentGame}
+                />
+              )}
+            />
+            <Route
+              path="/WRBattle"
+              component={routerProps => (
+                <WRBattleContainer
+                  {...routerProps}
+                  currentUser={currentUser}
+                  currentGame={currentGame}
+                />
+              )}
+            />
+            <Route
+              path="/RBBattle"
+              component={routerProps => (
+                <RBBattleContainer
                   {...routerProps}
                   currentUser={currentUser}
                   currentGame={currentGame}
