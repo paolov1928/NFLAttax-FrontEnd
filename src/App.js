@@ -49,8 +49,14 @@ class App extends Component {
       window.alert("pick again");
     } else {
       let game = new Game();
+      // Computer gets assigned its players randomly from the 5. Uses the code in 1player
       let computer = new Player("Computer");
       computer.team = localStorage.getItem("Opponent");
+      computer.computerAssignPlayers(
+        playerSelectionContainerState.top5PlayersByTeamFantasyData,
+        playerSelectionContainerState.additionalDataForTop5Players
+      );
+
       let player = new Player("Player");
       player.team = localStorage.getItem("Pick");
       // The below is adding that players fantasy data object to the game instance
@@ -92,6 +98,7 @@ class App extends Component {
 
   render() {
     const { currentUser } = this.state;
+    const { currentGame } = this.state;
 
     return (
       <Router>
@@ -108,7 +115,11 @@ class App extends Component {
             <Route
               path="/Battle"
               component={routerProps => (
-                <BattleContainer {...routerProps} currentUser={currentUser} />
+                <BattleContainer
+                  {...routerProps}
+                  currentUser={currentUser}
+                  currentGame={currentGame}
+                />
               )}
             />
             <Route
