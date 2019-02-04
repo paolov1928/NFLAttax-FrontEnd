@@ -88,3 +88,9 @@ class Game {
 }
 
 export default Game;
+
+// This gets an array of all of the stats shown on the page
+// totalDataArray = Array.from(document.querySelectorAll('.extra')).map(n => n.innerText).map(n => n.split(":"))
+// selectedComparison = totalDataArray.filter( miniArray=> miniArray.includes("Age"))
+// fumblesComparison = selectedComparison.map(miniArray => miniArray[1])
+// fumblesComparison[0]>fumblesComparison[1]? "You won this matchup": "Bad news... the computer won this matchup"

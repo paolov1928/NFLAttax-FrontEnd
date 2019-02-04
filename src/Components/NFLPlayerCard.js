@@ -1,9 +1,12 @@
 import React from "react";
 import { Card, Icon, Image } from "semantic-ui-react";
 import * as usefulObject from "../Data/usefulObjects";
+import * as cardData from "../Data/CardData";
 import QBAdditionalDataFields from "./QBAdditionalDataFields";
 import RBAdditionalDataFields from "./RBAdditionalDataFields";
 import WRAdditionalDataFields from "./WRAdditionalDataFields";
+import NFLPlayerCardExtraStatistic from "./NFLPlayerCardExtraStatistic";
+import { withRouter } from "react-router-dom";
 
 function getAge(dateString) {
   var today = new Date();
@@ -62,9 +65,16 @@ const NFLPlayerCard = ({
   seasonPts,
   esbid,
   selectPlayer,
-  addData
+  addData,
+  location
 }) => (
-  <Card onClick={() => selectPlayer(position, esbid)}>
+  <Card
+    onClick={() =>
+      location.pathname === "/Teams"
+        ? selectPlayer(position, esbid)
+        : console.log("no clicks")
+    }
+  >
     <Image
       src={
         "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
@@ -84,33 +94,25 @@ const NFLPlayerCard = ({
         {usefulObject.aliasToFullName[teamAbbr]}
       </Card.Description>
     </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Fantasy Points: {Math.round(seasonPts)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Height: {convertInches(addData.height)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Weight: {Math.round(addData.weight)} lbs
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Age: {getAge(addData.birth_date)} years
-      </a>
-    </Card.Content>
+    <NFLPlayerCardExtraStatistic
+      seasonPts={seasonPts}
+      {...cardData.baseCardData.seasonPts}
+    />
+    <NFLPlayerCardExtraStatistic
+      height={addData.height}
+      {...cardData.baseCardData.height}
+    />
+    <NFLPlayerCardExtraStatistic
+      weight={addData.weight}
+      {...cardData.baseCardData.weight}
+    />
+    <NFLPlayerCardExtraStatistic
+      age={addData.birth_date}
+      {...cardData.baseCardData.age}
+    />
     {draftDetails(addData)}
     {renderAdditionalDataBasedOnPosition(position, addData)}
   </Card>
 );
 
-export default NFLPlayerCard;
+export default withRouter(NFLPlayerCard);
