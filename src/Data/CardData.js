@@ -39,3 +39,46 @@ export const baseCardData = {
     comparison: "down"
   }
 };
+
+export const qbCardData = {
+  totalTDs: {
+    syntax: "Total TDs",
+    method: data => data,
+    comparison: "up"
+  },
+  redZoneAttempts: {
+    syntax: "Red Zone Attempts",
+    method: data => data,
+    comparison: "up"
+  },
+  avgPassingYards: {
+    syntax: "Avg Passing Yards",
+    method: data => data,
+    comparison: "up"
+  },
+  qbRating: {
+    syntax: "QB Rating",
+    method: data => data,
+    comparison: "up"
+  },
+  sackYards: {
+    syntax: "Sack Yards",
+    method: data => data,
+    comparison: "down"
+  },
+  poorThrows: {
+    syntax: "Poor Throws",
+    method: data => data,
+    comparison: "down"
+  },
+  averagePocketTime: {
+    syntax: "Average Pocket Time",
+    method: data => data,
+    comparison: "down"
+  },
+  longestPassingTD: {
+    syntax: "Longest Passing TD",
+    method: data => data,
+    comparison: "up"
+  }
+};

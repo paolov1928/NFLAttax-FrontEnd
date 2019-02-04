@@ -8,24 +8,6 @@ import WRAdditionalDataFields from "./WRAdditionalDataFields";
 import NFLPlayerCardExtraStatistic from "./NFLPlayerCardExtraStatistic";
 import { withRouter } from "react-router-dom";
 
-function getAge(dateString) {
-  var today = new Date();
-  var birthDate = new Date(dateString);
-  var age = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-}
-
-function convertInches(inches) {
-  let feetFromInches = Math.floor(inches / 12); //There are 12 inches in a foot
-  let inchesRemainder = inches % 12;
-
-  let result = feetFromInches + "'-" + inchesRemainder + '"';
-  return result;
-}
 function renderAdditionalDataBasedOnPosition(position, addData) {
   if (position === "QB") {
     return <QBAdditionalDataFields {...addData} />;
