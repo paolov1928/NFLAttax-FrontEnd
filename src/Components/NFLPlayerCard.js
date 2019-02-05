@@ -12,7 +12,8 @@ function renderAdditionalDataBasedOnPosition(
   position,
   addData,
   compareStatistic,
-  toggleFade
+  toggleFade,
+  currentGame
 ) {
   if (position === "QB") {
     return (
@@ -28,6 +29,7 @@ function renderAdditionalDataBasedOnPosition(
         {...addData}
         compareStatistic={compareStatistic}
         toggleFade={toggleFade}
+        currentGame={currentGame}
       />
     );
   } else {
@@ -91,24 +93,28 @@ class NFLPlayerCard extends Component {
           {...cardData.baseCardData.seasonPts}
           compareStatistic={this.props.compareStatistic}
           toggleFade={this.props.toggleFade}
+          currentGame={this.props.currentGame}
         />
         <NFLPlayerCardExtraStatistic
           height={this.props.addData.height * 2.54}
           {...cardData.baseCardData.height}
           compareStatistic={this.props.compareStatistic}
           toggleFade={this.props.toggleFade}
+          currentGame={this.props.currentGame}
         />
         <NFLPlayerCardExtraStatistic
           weight={this.props.addData.weight}
           {...cardData.baseCardData.weight}
           compareStatistic={this.props.compareStatistic}
           toggleFade={this.props.toggleFade}
+          currentGame={this.props.currentGame}
         />
         <NFLPlayerCardExtraStatistic
           age={renderAge(this.props.addData.birth_date)}
           {...cardData.baseCardData.age}
           compareStatistic={this.props.compareStatistic}
           toggleFade={this.props.toggleFade}
+          currentGame={this.props.currentGame}
         />
         <NFLPlayerCardExtraStatistic
           draft={
@@ -117,12 +123,14 @@ class NFLPlayerCard extends Component {
           {...cardData.baseCardData.draft}
           compareStatistic={this.props.compareStatistic}
           toggleFade={this.props.toggleFade}
+          currentGame={this.props.currentGame}
         />
         {renderAdditionalDataBasedOnPosition(
           this.props.position,
           this.props.addData,
           this.props.compareStatistic,
-          this.props.toggleFade
+          this.props.toggleFade,
+          this.props.currentGame
         )}
       </Card>
     );

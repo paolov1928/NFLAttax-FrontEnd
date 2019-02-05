@@ -3,7 +3,6 @@ import { Card, Segment, Divider, Header } from "semantic-ui-react";
 import NFLPlayerCard from "../Components/NFLPlayerCard";
 
 class RBBattleContainer extends Component {
-  
   state = {
     toggle: false
   };
@@ -11,7 +10,7 @@ class RBBattleContainer extends Component {
   toggleFade = () => {
     this.setState({ toggle: true });
   };
-  
+
   RBarray = [
     this.props.currentGame.players[1].rb[0],
     this.props.currentGame.players[0].rb[0]
@@ -42,6 +41,7 @@ class RBBattleContainer extends Component {
                 playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
                 toggle={this.state.toggle}
                 toggleFade={this.toggleFade}
+                currentGame={this.props.currentGame}
               />
             ))}
           </Card.Group>
