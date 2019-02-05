@@ -6,12 +6,7 @@ export const baseCardData = {
   },
   height: {
     syntax: "Height (cm)",
-    method: inches => {
-      let feetFromInches = Math.floor(inches / 12); //There are 12 inches in a foot
-      let inchesRemainder = inches % 12;
-      let result = feetFromInches + "'-" + inchesRemainder + '"';
-      return result;
-    },
+    method: data => Math.round(data),
     comparison: "up"
   },
   weight: {
@@ -21,21 +16,12 @@ export const baseCardData = {
   },
   age: {
     syntax: "Age (years)",
-    method: dateString => {
-      var today = new Date();
-      var birthDate = new Date(dateString);
-      var age = today.getFullYear() - birthDate.getFullYear();
-      var m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age;
-    },
+    method: data => data,
     comparison: "up"
   },
   draft: {
     syntax: "Draft (pick)",
-    method: addData => (addData.draft ? addData.draft.number : "undrafted"),
+    method: data => (data === 999 ? "Undrafted" : data),
     comparison: "down"
   }
 };
@@ -78,6 +64,82 @@ export const qbCardData = {
   },
   longestPassingTD: {
     syntax: "Longest Passing TD",
+    method: data => data,
+    comparison: "up"
+  }
+};
+
+export const rbCardData = {
+  totalTDs: {
+    syntax: "Total TDs",
+    method: data => data,
+    comparison: "up"
+  },
+  fumbles: {
+    syntax: "Fumbles",
+    method: data => data,
+    comparison: "down"
+  },
+  avgRushYards: {
+    syntax: "Avg Rush Yards",
+    method: data => data,
+    comparison: "up"
+  },
+  avgRecYards: {
+    syntax: "Avg Receiving Yards",
+    method: data => data,
+    comparison: "up"
+  },
+  brokenTackles: {
+    syntax: "Broken Tackles",
+    method: data => data,
+    comparison: "up"
+  },
+  droppedPasses: {
+    syntax: "Dropped Receiving Passes",
+    method: data => data,
+    comparison: "down"
+  },
+  longestRushTD: {
+    syntax: "Longest Rush TD",
+    method: data => data,
+    comparison: "up"
+  }
+};
+
+export const wrCardData = {
+  totalTDs: {
+    syntax: "Total TDs",
+    method: data => data,
+    comparison: "up"
+  },
+  airYards: {
+    syntax: "Air Yards",
+    method: data => data,
+    comparison: "up"
+  },
+  yardsAfterContact: {
+    syntax: "Yards After Contact",
+    method: data => data,
+    comparison: "up"
+  },
+  avgRecYards: {
+    syntax: "Avg Receiving Yards",
+    method: data => data,
+    comparison: "up"
+  },
+  brokenTackles: {
+    syntax: "Broken Tackles",
+    method: data => data,
+    comparison: "up"
+  },
+  droppedPasses: {
+    syntax: "Dropped Receiving Passes",
+    method: data => data,
+    comparison: "down"
+  },
+  longestRecTD: {
+    syntax: "Longest Rec TD",
     method: data => data,
     comparison: "up"
   }

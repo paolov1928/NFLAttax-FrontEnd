@@ -29,6 +29,7 @@ class RBBattleContainer extends Component {
                 {...p}
                 key={p.id}
                 addData={this.RBaddDataArray[i]}
+                compareStatistic={this.props.compareStatistic}
               />
             ))}
           </Card.Group>

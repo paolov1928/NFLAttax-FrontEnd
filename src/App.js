@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import Login from "./Components/Login";
 import PickTeamOrOpponent from "./Components/PickTeamOrOpponent";
 import Welcome from "./Components/Welcome";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect
+} from "react-router-dom";
 // import 'semantic-ui-css/semantic.min.css'
 import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer";
 import QBBattleContainer from "./Containers/QBBattleContainer";
@@ -14,7 +20,8 @@ import Player from "./Game-Logic/1player";
 class App extends Component {
   state = {
     currentUser: false,
-    currentGame: null
+    currentGame: null,
+    toWR: false
   };
 
   signin = (user, token) => {
@@ -98,9 +105,41 @@ class App extends Component {
     }
   };
 
+  compareStatistic = (clickStatistic, comparison) => {
+    const whatClickedOn = clickStatistic;
+    const comparisonOperator = comparison;
+    const goodResult = "You won this matchup";
+    const badResult = "Bad news... the computer won this matchup";
+    let actualResult = false;
+    let totalDataArray = Array.from(document.querySelectorAll(".extra"))
+      .map(n => n.innerText)
+      .map(n => n.split(":"));
+    let selectedComparison = totalDataArray.filter(miniArray =>
+      miniArray.includes(whatClickedOn)
+    );
+    let makingComparison = selectedComparison.map(miniArray =>
+      parseFloat(miniArray[1])
+    );
+    makingComparison[0] > makingComparison[1]
+      ? (actualResult = true)
+      : (actualResult = false);
+    if (comparisonOperator === "down") {
+      actualResult = !actualResult;
+    }
+    actualResult === true ? window.alert(goodResult) : window.alert(badResult);
+    let game = this.state.currentGame;
+    game.playerWonRound();
+    // this.setState(() => ({
+    //   toWR: true
+    // }));
+  };
+
   render() {
     const { currentUser } = this.state;
     const { currentGame } = this.state;
+    // if (this.state.toWR === true) {
+    //   return <Redirect to="/WRBattle" />;
+    // }
 
     return (
       <Router>
@@ -123,6 +162,7 @@ class App extends Component {
                   {...routerProps}
                   currentUser={currentUser}
                   currentGame={currentGame}
+                  compareStatistic={this.compareStatistic}
                 />
               )}
             />
@@ -133,6 +173,7 @@ class App extends Component {
                   {...routerProps}
                   currentUser={currentUser}
                   currentGame={currentGame}
+                  compareStatistic={this.compareStatistic}
                 />
               )}
             />
@@ -143,6 +184,7 @@ class App extends Component {
                   {...routerProps}
                   currentUser={currentUser}
                   currentGame={currentGame}
+                  compareStatistic={this.compareStatistic}
                 />
               )}
             />

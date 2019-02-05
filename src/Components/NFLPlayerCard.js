@@ -8,37 +8,45 @@ import WRAdditionalDataFields from "./WRAdditionalDataFields";
 import NFLPlayerCardExtraStatistic from "./NFLPlayerCardExtraStatistic";
 import { withRouter } from "react-router-dom";
 
-function renderAdditionalDataBasedOnPosition(position, addData) {
+function renderAdditionalDataBasedOnPosition(
+  position,
+  addData,
+  compareStatistic
+) {
   if (position === "QB") {
-    return <QBAdditionalDataFields {...addData} />;
+    return (
+      <QBAdditionalDataFields
+        {...addData}
+        compareStatistic={compareStatistic}
+      />
+    );
   } else if (position === "RB") {
-    return <RBAdditionalDataFields {...addData} />;
+    return (
+      <RBAdditionalDataFields
+        {...addData}
+        compareStatistic={compareStatistic}
+      />
+    );
   } else {
-    return <WRAdditionalDataFields {...addData} />;
+    return (
+      <WRAdditionalDataFields
+        {...addData}
+        compareStatistic={compareStatistic}
+      />
+    );
   }
 }
 
-const draftDetails = addData => {
-  if (addData.draft) {
-    return (
-      <Card.Content extra>
-        <a>
-          <Icon name="football ball" />
-          Draft: Round: {addData.draft.round}, Pick: {addData.draft.number}
-        </a>
-      </Card.Content>
-    );
-  } else {
-    return (
-      <Card.Content extra>
-        <a>
-          <Icon name="football ball" />
-          Draft: Undrafted
-        </a>
-      </Card.Content>
-    );
+function renderAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
   }
-};
+  return age;
+}
 
 const NFLPlayerCard = ({
   name,
@@ -48,13 +56,14 @@ const NFLPlayerCard = ({
   esbid,
   selectPlayer,
   addData,
-  location
+  location,
+  compareStatistic
 }) => (
   <Card
     onClick={() =>
       location.pathname === "/Teams"
         ? selectPlayer(position, esbid)
-        : console.log("no clicks")
+        : "no clicks"
     }
   >
     <Image
@@ -79,22 +88,38 @@ const NFLPlayerCard = ({
     <NFLPlayerCardExtraStatistic
       seasonPts={seasonPts}
       {...cardData.baseCardData.seasonPts}
+      compareStatistic={compareStatistic}
     />
     <NFLPlayerCardExtraStatistic
-      height={addData.height}
+      height={addData.height * 2.54}
       {...cardData.baseCardData.height}
+      compareStatistic={compareStatistic}
     />
     <NFLPlayerCardExtraStatistic
       weight={addData.weight}
       {...cardData.baseCardData.weight}
+      compareStatistic={compareStatistic}
     />
     <NFLPlayerCardExtraStatistic
-      age={addData.birth_date}
+      age={renderAge(addData.birth_date)}
       {...cardData.baseCardData.age}
+      compareStatistic={compareStatistic}
     />
-    {draftDetails(addData)}
-    {renderAdditionalDataBasedOnPosition(position, addData)}
+    <NFLPlayerCardExtraStatistic
+      draft={addData.draft ? addData.draft.number : 999}
+      {...cardData.baseCardData.draft}
+      compareStatistic={compareStatistic}
+    />
+    {renderAdditionalDataBasedOnPosition(position, addData, compareStatistic)}
   </Card>
 );
 
 export default withRouter(NFLPlayerCard);
+
+// CM Comparison is easier but would be nice in Feet
+// inches => {
+//   let feetFromInches = Math.floor(inches / 12); //There are 12 inches in a foot
+//   let inchesRemainder = inches % 12;
+//   let result = feetFromInches + "'-" + inchesRemainder + '"';
+//   return result;
+// }

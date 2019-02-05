@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, Icon } from "semantic-ui-react";
+import NFLPlayerCardExtraStatistic from "./NFLPlayerCardExtraStatistic";
+import * as cardData from "../Data/CardData";
 
 const statisticsLookup = (typeOfStat, actualStat, props) =>
   props.seasons.find(s => s.year === 2018 && s.type === "REG").teams[0]
@@ -19,54 +21,47 @@ const fumblesCalculation = props => {
 
 const RBAdditionalDataFields = props => (
   <React.Fragment>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Total TDs:{" "}
-        {statisticsLookup("receiving", "touchdowns", props) +
-          statisticsLookup("rushing", "touchdowns", props)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Fumbles: {fumblesCalculation(props)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Avg Rush Yards: {statisticsLookup("rushing", "avg_yards", props)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Avg Receiving Yards: {statisticsLookup("receiving", "avg_yards", props)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Broken Tackles:{" "}
-        {statisticsLookup("receiving", "broken_tackles", props) +
-          statisticsLookup("rushing", "broken_tackles", props)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Longest Rush TD:{" "}
-        {statisticsLookup("rushing", "longest_touchdown", props)}
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="football ball" />
-        Dropped Receiving Passes:{" "}
-        {statisticsLookup("receiving", "dropped_passes", props)}
-      </a>
-    </Card.Content>
+    <NFLPlayerCardExtraStatistic
+      totalTDs={
+        statisticsLookup("receiving", "touchdowns", props) +
+        statisticsLookup("rushing", "touchdowns", props)
+      }
+      {...cardData.rbCardData.totalTDs}
+      compareStatistic={props.compareStatistic}
+    />
+    <NFLPlayerCardExtraStatistic
+      fumbles={fumblesCalculation(props)}
+      {...cardData.rbCardData.fumbles}
+      compareStatistic={props.compareStatistic}
+    />
+    <NFLPlayerCardExtraStatistic
+      avgRushYards={statisticsLookup("rushing", "avg_yards", props)}
+      {...cardData.rbCardData.avgRushYards}
+      compareStatistic={props.compareStatistic}
+    />
+    <NFLPlayerCardExtraStatistic
+      avgRecYards={statisticsLookup("receiving", "avg_yards", props)}
+      {...cardData.rbCardData.avgRecYards}
+      compareStatistic={props.compareStatistic}
+    />
+    <NFLPlayerCardExtraStatistic
+      brokenTackles={
+        statisticsLookup("receiving", "broken_tackles", props) +
+        statisticsLookup("rushing", "broken_tackles", props)
+      }
+      {...cardData.rbCardData.brokenTackles}
+      compareStatistic={props.compareStatistic}
+    />
+    <NFLPlayerCardExtraStatistic
+      longestRushTD={statisticsLookup("rushing", "longest_touchdown", props)}
+      {...cardData.rbCardData.longestRushTD}
+      compareStatistic={props.compareStatistic}
+    />
+    <NFLPlayerCardExtraStatistic
+      droppedPasses={statisticsLookup("receiving", "dropped_passes", props)}
+      {...cardData.rbCardData.droppedPasses}
+      compareStatistic={props.compareStatistic}
+    />
   </React.Fragment>
 );
 

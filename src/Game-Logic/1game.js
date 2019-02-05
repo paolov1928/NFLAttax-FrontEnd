@@ -6,6 +6,10 @@ class Game {
     this.p1roundCount = 0;
   }
 
+  playerWonRound = () => {
+    this.p1roundCount++;
+  };
+
   playerCount = () => {
     return this.players.length;
   };

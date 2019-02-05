@@ -29,6 +29,7 @@ class WRBattleContainer extends Component {
                 {...p}
                 key={p.id}
                 addData={this.WRaddDataArray[i]}
+                compareStatistic={this.props.compareStatistic}
               />
             ))}
           </Card.Group>

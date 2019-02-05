@@ -29,6 +29,7 @@ class QBBattleContainer extends Component {
                 {...p}
                 key={p.id}
                 addData={this.QBaddDataArray[i]}
+                compareStatistic={this.props.compareStatistic}
               />
             ))}
           </Card.Group>
