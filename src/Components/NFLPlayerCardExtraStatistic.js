@@ -17,8 +17,8 @@ const NFLPlayerCardExtraStatistic = props => (
     extra
     onClick={() => {
       props.compareStatistic(props.syntax, props.comparison);
-
-      whereToNext(props.location.pathname, props);
+      props.toggleFade();
+      setTimeout(() => whereToNext(props.location.pathname, props), 8000);
     }}
   >
     <a>

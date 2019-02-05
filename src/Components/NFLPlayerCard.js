@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Card, Icon, Image } from "semantic-ui-react";
 import * as usefulObject from "../Data/usefulObjects";
 import * as cardData from "../Data/CardData";
@@ -11,13 +11,15 @@ import { withRouter } from "react-router-dom";
 function renderAdditionalDataBasedOnPosition(
   position,
   addData,
-  compareStatistic
+  compareStatistic,
+  toggleFade
 ) {
   if (position === "QB") {
     return (
       <QBAdditionalDataFields
         {...addData}
         compareStatistic={compareStatistic}
+        toggleFade={toggleFade}
       />
     );
   } else if (position === "RB") {
@@ -25,6 +27,7 @@ function renderAdditionalDataBasedOnPosition(
       <RBAdditionalDataFields
         {...addData}
         compareStatistic={compareStatistic}
+        toggleFade={toggleFade}
       />
     );
   } else {
@@ -32,6 +35,7 @@ function renderAdditionalDataBasedOnPosition(
       <WRAdditionalDataFields
         {...addData}
         compareStatistic={compareStatistic}
+        toggleFade={toggleFade}
       />
     );
   }
@@ -48,74 +52,82 @@ function renderAge(dateString) {
   return age;
 }
 
-const NFLPlayerCard = ({
-  name,
-  position,
-  teamAbbr,
-  seasonPts,
-  esbid,
-  selectPlayer,
-  addData,
-  location,
-  compareStatistic,
-  playerOpponent
-}) => (
-  <Card
-    onClick={() =>
-      location.pathname === "/Teams"
-        ? selectPlayer(position, esbid)
-        : "no clicks"
-    }
-    className={playerOpponent === "Opponent" ? "Opponent" : "Player"}
-  >
-    <Image
-      src={
-        "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
-        esbid +
-        ".png"
-      }
-      centered
-    />
-    <Card.Content>
-      <Card.Header>{name}</Card.Header>
-      <Card.Meta>
-        <span className="date">
-          {usefulObject.positionAliasToFull[position]}
-        </span>
-      </Card.Meta>
-      <Card.Description>
-        {usefulObject.aliasToFullName[teamAbbr]}
-      </Card.Description>
-    </Card.Content>
-    <NFLPlayerCardExtraStatistic
-      seasonPts={seasonPts}
-      {...cardData.baseCardData.seasonPts}
-      compareStatistic={compareStatistic}
-    />
-    <NFLPlayerCardExtraStatistic
-      height={addData.height * 2.54}
-      {...cardData.baseCardData.height}
-      compareStatistic={compareStatistic}
-    />
-    <NFLPlayerCardExtraStatistic
-      weight={addData.weight}
-      {...cardData.baseCardData.weight}
-      compareStatistic={compareStatistic}
-    />
-    <NFLPlayerCardExtraStatistic
-      age={renderAge(addData.birth_date)}
-      {...cardData.baseCardData.age}
-      compareStatistic={compareStatistic}
-    />
-    <NFLPlayerCardExtraStatistic
-      draft={addData.draft ? addData.draft.number : 999}
-      {...cardData.baseCardData.draft}
-      compareStatistic={compareStatistic}
-    />
-    {renderAdditionalDataBasedOnPosition(position, addData, compareStatistic)}
-  </Card>
-);
-
+class NFLPlayerCard extends Component {
+  render() {
+    return (
+      <Card
+        onClick={() =>
+          this.props.location.pathname === "/Teams"
+            ? this.props.selectPlayer(this.props.position, this.props.esbid)
+            : "no clicks"
+        }
+        className={
+          this.props.playerOpponent === "Opponent" && !this.props.toggle
+            ? "Opponent"
+            : "Player"
+        }
+      >
+        <Image
+          src={
+            "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
+            this.props.esbid +
+            ".png"
+          }
+          centered
+        />
+        <Card.Content>
+          <Card.Header>{this.props.name}</Card.Header>
+          <Card.Meta>
+            <span className="date">
+              {usefulObject.positionAliasToFull[this.props.position]}
+            </span>
+          </Card.Meta>
+          <Card.Description>
+            {usefulObject.aliasToFullName[this.props.teamAbbr]}
+          </Card.Description>
+        </Card.Content>
+        <NFLPlayerCardExtraStatistic
+          seasonPts={this.props.seasonPts}
+          {...cardData.baseCardData.seasonPts}
+          compareStatistic={this.props.compareStatistic}
+          toggleFade={this.props.toggleFade}
+        />
+        <NFLPlayerCardExtraStatistic
+          height={this.props.addData.height * 2.54}
+          {...cardData.baseCardData.height}
+          compareStatistic={this.props.compareStatistic}
+          toggleFade={this.props.toggleFade}
+        />
+        <NFLPlayerCardExtraStatistic
+          weight={this.props.addData.weight}
+          {...cardData.baseCardData.weight}
+          compareStatistic={this.props.compareStatistic}
+          toggleFade={this.props.toggleFade}
+        />
+        <NFLPlayerCardExtraStatistic
+          age={renderAge(this.props.addData.birth_date)}
+          {...cardData.baseCardData.age}
+          compareStatistic={this.props.compareStatistic}
+          toggleFade={this.props.toggleFade}
+        />
+        <NFLPlayerCardExtraStatistic
+          draft={
+            this.props.addData.draft ? this.props.addData.draft.number : 999
+          }
+          {...cardData.baseCardData.draft}
+          compareStatistic={this.props.compareStatistic}
+          toggleFade={this.props.toggleFade}
+        />
+        {renderAdditionalDataBasedOnPosition(
+          this.props.position,
+          this.props.addData,
+          this.props.compareStatistic,
+          this.props.toggleFade
+        )}
+      </Card>
+    );
+  }
+}
 export default withRouter(NFLPlayerCard);
 
 // CM Comparison is easier but would be nice in Feet

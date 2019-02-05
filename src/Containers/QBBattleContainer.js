@@ -4,6 +4,14 @@ import NFLPlayerCard from "../Components/NFLPlayerCard";
 import "./battle.css";
 
 class QBBattleContainer extends Component {
+  state = {
+    toggle: false
+  };
+
+  toggleFade = () => {
+    this.setState({ toggle: true });
+  };
+
   QBarray = [
     this.props.currentGame.players[1].qb[0],
     this.props.currentGame.players[0].qb[0]
@@ -32,6 +40,8 @@ class QBBattleContainer extends Component {
                 addData={this.QBaddDataArray[i]}
                 compareStatistic={this.props.compareStatistic}
                 playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
+                toggle={this.state.toggle}
+                toggleFade={this.toggleFade}
               />
             ))}
           </Card.Group>
