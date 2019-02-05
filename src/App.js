@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Login from "./Components/Login";
+import WinPage from "./Components/WinPage";
+import LossPage from "./Components/LossPage";
 import PickTeamOrOpponent from "./Components/PickTeamOrOpponent";
 import Welcome from "./Components/Welcome";
 import {
@@ -148,9 +150,19 @@ class App extends Component {
           <Link to="/QBBattle">Battle your QBs!</Link>..
           <Link to="/WRBattle">Battle your WRs!</Link>..
           <Link to="/RBBattle">Battle your RBs!</Link>..
+          <Link to="/Win">Winners</Link>..
+          <Link to="/Loss">Losers</Link>..
           <button onClick={this.signOut}>SignOut</button>
           <hr />
           <Switch>
+            <Route
+              path="/Loss"
+              component={routerProps => <LossPage {...routerProps} />}
+            />
+            <Route
+              path="/Win"
+              component={routerProps => <WinPage {...routerProps} />}
+            />
             <Route
               path="/QBBattle"
               component={routerProps => (
