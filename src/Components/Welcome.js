@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Image, Container } from "semantic-ui-react";
+import WinModal from "./WinModal";
 
 class Welcome extends Component {
   handleClick = () => {

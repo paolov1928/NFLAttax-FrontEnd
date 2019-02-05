@@ -57,7 +57,8 @@ const NFLPlayerCard = ({
   selectPlayer,
   addData,
   location,
-  compareStatistic
+  compareStatistic,
+  playerOpponent
 }) => (
   <Card
     onClick={() =>
@@ -65,6 +66,7 @@ const NFLPlayerCard = ({
         ? selectPlayer(position, esbid)
         : "no clicks"
     }
+    className={playerOpponent === "Opponent" ? "Opponent" : "Player"}
   >
     <Image
       src={

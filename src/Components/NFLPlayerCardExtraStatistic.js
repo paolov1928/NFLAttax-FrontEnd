@@ -2,8 +2,14 @@ import React from "react";
 import { Card, Icon } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 
-const whereToNext = location => {
-  console.log(location);
+const whereToNext = (location, props) => {
+  if (location === "/QBBattle") {
+    return props.history.push("/WRBattle");
+  } else if (location === "/WRBattle") {
+    return props.history.push("/RBBattle");
+  } else {
+    return props.history.push("/Welcome");
+  }
 };
 
 const NFLPlayerCardExtraStatistic = props => (
@@ -11,7 +17,8 @@ const NFLPlayerCardExtraStatistic = props => (
     extra
     onClick={() => {
       props.compareStatistic(props.syntax, props.comparison);
-      props.history.push("/WRBattle");
+
+      whereToNext(props.location.pathname, props);
     }}
   >
     <a>

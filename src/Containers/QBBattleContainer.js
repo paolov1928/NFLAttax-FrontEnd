@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Segment, Divider, Header } from "semantic-ui-react";
 import NFLPlayerCard from "../Components/NFLPlayerCard";
+import "./battle.css";
 
 class QBBattleContainer extends Component {
   QBarray = [
@@ -30,9 +31,11 @@ class QBBattleContainer extends Component {
                 key={p.id}
                 addData={this.QBaddDataArray[i]}
                 compareStatistic={this.props.compareStatistic}
+                playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
               />
             ))}
           </Card.Group>
+
           <Divider vertical>
             <strong>Vs</strong>
           </Divider>

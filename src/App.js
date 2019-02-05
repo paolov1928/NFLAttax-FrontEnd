@@ -128,18 +128,14 @@ class App extends Component {
     }
     actualResult === true ? window.alert(goodResult) : window.alert(badResult);
     let game = this.state.currentGame;
-    game.playerWonRound();
-    // this.setState(() => ({
-    //   toWR: true
-    // }));
+    if (actualResult === true) {
+      game.playerWonRound();
+    }
   };
 
   render() {
     const { currentUser } = this.state;
     const { currentGame } = this.state;
-    // if (this.state.toWR === true) {
-    //   return <Redirect to="/WRBattle" />;
-    // }
 
     return (
       <Router>
