@@ -3,6 +3,14 @@ import { Card, Segment, Divider, Header } from "semantic-ui-react";
 import NFLPlayerCard from "../Components/NFLPlayerCard";
 
 class WRBattleContainer extends Component {
+  state = {
+    toggle: false
+  };
+
+  toggleFade = () => {
+    this.setState({ toggle: true });
+  };
+
   WRarray = [
     this.props.currentGame.players[1].wr[0],
     this.props.currentGame.players[0].wr[0]
@@ -30,6 +38,9 @@ class WRBattleContainer extends Component {
                 key={p.id}
                 addData={this.WRaddDataArray[i]}
                 compareStatistic={this.props.compareStatistic}
+                playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
+                toggle={this.state.toggle}
+                toggleFade={this.toggleFade}
               />
             ))}
           </Card.Group>

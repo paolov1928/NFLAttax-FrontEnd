@@ -28,21 +28,25 @@ const RBAdditionalDataFields = props => (
       }
       {...cardData.rbCardData.totalTDs}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       fumbles={fumblesCalculation(props)}
       {...cardData.rbCardData.fumbles}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       avgRushYards={statisticsLookup("rushing", "avg_yards", props)}
       {...cardData.rbCardData.avgRushYards}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       avgRecYards={statisticsLookup("receiving", "avg_yards", props)}
       {...cardData.rbCardData.avgRecYards}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       brokenTackles={
@@ -51,16 +55,19 @@ const RBAdditionalDataFields = props => (
       }
       {...cardData.rbCardData.brokenTackles}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       longestRushTD={statisticsLookup("rushing", "longest_touchdown", props)}
       {...cardData.rbCardData.longestRushTD}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       droppedPasses={statisticsLookup("receiving", "dropped_passes", props)}
       {...cardData.rbCardData.droppedPasses}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
   </React.Fragment>
 );

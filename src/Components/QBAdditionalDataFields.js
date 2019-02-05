@@ -17,6 +17,7 @@ const QBAdditionalDataFields = props => (
       }
       {...cardData.qbCardData.totalTDs}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       redZoneAttempts={
@@ -25,36 +26,43 @@ const QBAdditionalDataFields = props => (
       }
       {...cardData.qbCardData.redZoneAttempts}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       avgPassingYards={statisticsLookup("passing", "avg_yards", props)}
       {...cardData.qbCardData.avgPassingYards}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       qbRating={statisticsLookup("passing", "rating", props)}
       {...cardData.qbCardData.qbRating}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       sackYards={statisticsLookup("passing", "sack_yards", props)}
       {...cardData.qbCardData.sackYards}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       poorThrows={statisticsLookup("passing", "poor_throws", props)}
       {...cardData.qbCardData.poorThrows}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       averagePocketTime={statisticsLookup("passing", "avg_pocket_time", props)}
       {...cardData.qbCardData.averagePocketTime}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
     <NFLPlayerCardExtraStatistic
       longestPassingTD={statisticsLookup("passing", "longest_touchdown", props)}
       {...cardData.qbCardData.longestPassingTD}
       compareStatistic={props.compareStatistic}
+      toggleFade={props.toggleFade}
     />
   </React.Fragment>
 );
