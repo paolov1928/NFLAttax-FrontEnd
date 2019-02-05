@@ -4,6 +4,7 @@ import { Button, Image, Container } from "semantic-ui-react";
 class Welcome extends Component {
   handleClick = () => {
     this.props.history.push("/Pick");
+    window.scrollTo(0, 0);
   };
 
   render() {

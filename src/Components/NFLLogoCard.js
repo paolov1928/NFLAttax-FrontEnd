@@ -7,9 +7,11 @@ const handleClick = props => {
   if (props.where === "/Pick") {
     localStorage.setItem("Pick", props.text);
     props.history.push("/Opponent");
+    window.scrollTo(0, 0);
   } else if (props.where === "/Opponent") {
     localStorage.setItem("Opponent", props.text);
     props.history.push("/Teams");
+    window.scrollTo(0, 0);
   } else {
     console.log("Didnt work!!");
   }

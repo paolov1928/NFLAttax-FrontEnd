@@ -93,7 +93,10 @@ class PlayerSelectionContainer extends Component {
           size="big"
           color="red"
           attached="bottom"
-          onClick={() => this.props.createGame(this.state)}
+          onClick={() => {
+            this.props.createGame(this.state);
+            this.props.history.push("/QBBattle");
+          }}
         >
           Let's Play
         </Button>
