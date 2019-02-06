@@ -86,7 +86,7 @@ class PlayerSelectionContainer extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Player Roster, choose 1 QB, 1 RB and 1 WR</h1>
+        <h1>Player Roster - choose 1 QB, 1 RB and 1 WR</h1>
         <RosterSegment
           selectedQB={this.state.selectedQB}
           selectedWR={this.state.selectedWR}
