@@ -17,6 +17,8 @@ import WRBattleContainer from "./Containers/WRBattleContainer"
 import RBBattleContainer from "./Containers/RBBattleContainer"
 import Game from "./Game-Logic/1game"
 import Player from "./Game-Logic/1player"
+import { ToastContainer, toast, Zoom } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 class App extends Component {
   state = {
@@ -126,7 +128,13 @@ class App extends Component {
     if (comparisonOperator === "down") {
       actualResult = !actualResult
     }
-    actualResult === true ? window.alert(goodResult) : window.alert(badResult)
+    actualResult === true
+      ? toast.success(goodResult, {
+          position: "top-center"
+        })
+      : toast.error(badResult, {
+          position: "top-center"
+        })
     let game = this.state.currentGame
     if (actualResult === true) {
       game.playerWonRound()
@@ -238,6 +246,13 @@ class App extends Component {
               )}
             />
           </Switch>
+          <ToastContainer
+            newestOnTop
+            autoClose={8000}
+            draggable
+            hideProgressBar
+            transition={Zoom}
+          />
         </React.Fragment>
       </Router>
     )

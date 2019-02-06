@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import { Button, Image, Container } from "semantic-ui-react"
-import WinModal from "./WinModal"
+import { toast } from "react-toastify"
 
 class Welcome extends Component {
   handleClick = () => {
+    toast.info("You entered the game!")
     this.props.history.push("/Pick")
     window.scrollTo(0, 0)
   }
