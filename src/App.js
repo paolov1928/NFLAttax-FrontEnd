@@ -149,7 +149,7 @@ class App extends Component {
       <Router>
         <React.Fragment>
           <Link to="/Login">Login</Link>..
-          <Link to="/">Welcome Screen</Link>..
+          <Link to="/">Dashboard</Link>..
           <Link to="/Pick">Pick your team!</Link>..
           <Link to="/Opponent">Pick your opponent!</Link>..
           <Link to="/Teams">Select your Players!</Link>..
