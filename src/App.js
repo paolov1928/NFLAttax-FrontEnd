@@ -1,55 +1,53 @@
-import React, { Component } from "react";
-import Login from "./Components/Login";
-import WinPage from "./Components/WinPage";
-import LossPage from "./Components/LossPage";
-import PickTeamOrOpponent from "./Components/PickTeamOrOpponent";
-import Welcome from "./Components/Welcome";
+import React, { Component } from "react"
+import Login from "./Components/Login"
+import EndPage from "./Components/EndPage"
+import PickTeamOrOpponent from "./Components/PickTeamOrOpponent"
+import Welcome from "./Components/Welcome"
 import {
   BrowserRouter as Router,
   Route,
   Link,
   Switch,
   Redirect
-} from "react-router-dom";
+} from "react-router-dom"
 // import 'semantic-ui-css/semantic.min.css'
-import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer";
-import QBBattleContainer from "./Containers/QBBattleContainer";
-import WRBattleContainer from "./Containers/WRBattleContainer";
-import RBBattleContainer from "./Containers/RBBattleContainer";
-import Game from "./Game-Logic/1game";
-import Player from "./Game-Logic/1player";
+import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer"
+import QBBattleContainer from "./Containers/QBBattleContainer"
+import WRBattleContainer from "./Containers/WRBattleContainer"
+import RBBattleContainer from "./Containers/RBBattleContainer"
+import Game from "./Game-Logic/1game"
+import Player from "./Game-Logic/1player"
 
 class App extends Component {
   state = {
     currentUser: false,
-    currentGame: null,
-    toWR: false
-  };
+    currentGame: null
+  }
 
   signin = (user, token) => {
     this.setState({
       currentUser: user
-    });
-    localStorage.setItem("token", token);
-  };
+    })
+    localStorage.setItem("token", token)
+  }
 
   signOut = () => {
     this.setState({
       currentUser: false
-    });
-    localStorage.removeItem("token");
-    localStorage.removeItem("Pick");
-    localStorage.removeItem("Opponent");
-  };
+    })
+    localStorage.removeItem("token")
+    localStorage.removeItem("Pick")
+    localStorage.removeItem("Opponent")
+  }
 
   filterAdditionalDataForThatCard = (gsis, addData) => {
     // This filters down the additional data to that one player... JOSH GORDON IS missing
     return addData.filter(addPData => {
       if (addPData.references.find(o => o.origin === "gsis" && o.id === gsis)) {
-        return true;
+        return true
       }
-    })[0];
-  };
+    })[0]
+  }
 
   createGame = playerSelectionContainerState => {
     if (
@@ -57,87 +55,87 @@ class App extends Component {
       !playerSelectionContainerState.selectedRB ||
       !playerSelectionContainerState.selectedWR
     ) {
-      window.alert("pick again");
+      window.alert("pick again")
     } else {
-      let game = new Game();
+      let game = new Game()
       // Computer gets assigned its players randomly from the 5. Uses the code in 1player
-      let computer = new Player("Computer");
-      computer.team = localStorage.getItem("Opponent");
+      let computer = new Player("Computer")
+      computer.team = localStorage.getItem("Opponent")
       computer.computerAssignPlayers(
         playerSelectionContainerState.top5PlayersByTeamFantasyData,
         playerSelectionContainerState.additionalDataForTop5Players
-      );
+      )
 
-      let player = new Player("Player");
-      player.team = localStorage.getItem("Pick");
+      let player = new Player("Player")
+      player.team = localStorage.getItem("Pick")
       // The below is adding that players fantasy data object to the game instance
       player.qb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
         p => p.esbid === playerSelectionContainerState.selectedQB
-      );
-      const qbGSIS = player.qb[0].gsisPlayerId;
+      )
+      const qbGSIS = player.qb[0].gsisPlayerId
       player.qb.push(
         this.filterAdditionalDataForThatCard(
           qbGSIS,
           playerSelectionContainerState.additionalDataForTop5Players
         )
-      );
+      )
       player.wr = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
         p => p.esbid === playerSelectionContainerState.selectedWR
-      );
-      const wrGSIS = player.wr[0].gsisPlayerId;
+      )
+      const wrGSIS = player.wr[0].gsisPlayerId
       player.wr.push(
         this.filterAdditionalDataForThatCard(
           wrGSIS,
           playerSelectionContainerState.additionalDataForTop5Players
         )
-      );
+      )
       player.rb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
         p => p.esbid === playerSelectionContainerState.selectedRB
-      );
-      const rbGSIS = player.rb[0].gsisPlayerId;
+      )
+      const rbGSIS = player.rb[0].gsisPlayerId
       player.rb.push(
         this.filterAdditionalDataForThatCard(
           rbGSIS,
           playerSelectionContainerState.additionalDataForTop5Players
         )
-      );
-      game.addPlayer(computer);
-      game.addPlayer(player);
-      this.setState({ currentGame: game });
+      )
+      game.addPlayer(computer)
+      game.addPlayer(player)
+      this.setState({ currentGame: game })
     }
-  };
+  }
 
   compareStatistic = (clickStatistic, comparison) => {
-    const whatClickedOn = clickStatistic;
-    const comparisonOperator = comparison;
-    const goodResult = "You won this matchup";
-    const badResult = "Bad news... the computer won this matchup";
-    let actualResult = false;
+    const whatClickedOn = clickStatistic
+    const comparisonOperator = comparison
+    const goodResult = "You won this matchup"
+    const badResult = "Bad news... the computer won this matchup"
+    let actualResult = false
     let totalDataArray = Array.from(document.querySelectorAll(".extra"))
       .map(n => n.innerText)
-      .map(n => n.split(":"));
+      .map(n => n.split(":"))
     let selectedComparison = totalDataArray.filter(miniArray =>
       miniArray.includes(whatClickedOn)
-    );
+    )
     let makingComparison = selectedComparison.map(miniArray =>
       parseFloat(miniArray[1])
-    );
+    )
     makingComparison[0] > makingComparison[1]
       ? (actualResult = true)
-      : (actualResult = false);
+      : (actualResult = false)
     if (comparisonOperator === "down") {
-      actualResult = !actualResult;
+      actualResult = !actualResult
     }
-    actualResult === true ? window.alert(goodResult) : window.alert(badResult);
-    let game = this.state.currentGame;
+    actualResult === true ? window.alert(goodResult) : window.alert(badResult)
+    let game = this.state.currentGame
     if (actualResult === true) {
-      game.playerWonRound();
+      game.playerWonRound()
     }
-  };
+  }
 
   render() {
-    const { currentUser } = this.state;
-    const { currentGame } = this.state;
+    const { currentUser } = this.state
+    const { currentGame } = this.state
 
     return (
       <Router>
@@ -157,11 +155,15 @@ class App extends Component {
           <Switch>
             <Route
               path="/Loss"
-              component={routerProps => <LossPage {...routerProps} />}
+              component={routerProps => (
+                <EndPage {...routerProps} currentGame={currentGame} />
+              )}
             />
             <Route
               path="/Win"
-              component={routerProps => <WinPage {...routerProps} />}
+              component={routerProps => (
+                <EndPage {...routerProps} currentGame={currentGame} />
+              )}
             />
             <Route
               path="/QBBattle"
@@ -238,11 +240,11 @@ class App extends Component {
           </Switch>
         </React.Fragment>
       </Router>
-    );
+    )
   }
 }
 
-export default App;
+export default App
 
 // import BackgroundImage from './Images/nfl-background-6.jpg'
 // the below was in the render:

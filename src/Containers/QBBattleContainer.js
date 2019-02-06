@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { Card, Segment, Divider, Header } from "semantic-ui-react";
-import NFLPlayerCard from "../Components/NFLPlayerCard";
-import "./battle.css";
+import React, { Component } from "react"
+import { Card, Segment, Divider, Header } from "semantic-ui-react"
+import NFLPlayerCard from "../Components/NFLPlayerCard"
+import "./battle.css"
 
 class QBBattleContainer extends Component {
   state = {
     toggle: false
-  };
+  }
 
   toggleFade = () => {
-    this.setState({ toggle: true });
-  };
+    this.setState({ toggle: true })
+  }
 
   QBarray = [
     this.props.currentGame.players[1].qb[0],
     this.props.currentGame.players[0].qb[0]
-  ];
+  ]
   QBaddDataArray = [
     this.props.currentGame.players[1].qb[1],
     this.props.currentGame.players[0].qb[1]
-  ];
+  ]
 
   render() {
     return (
@@ -51,11 +51,8 @@ class QBBattleContainer extends Component {
           </Divider>
         </Segment>
       </React.Fragment>
-    );
+    )
   }
 }
 
-export default QBBattleContainer;
-
-//Potentially use the quotes API ....  fetch('http://quotes.rest/qod.json?category=sports').then(r=> r.json()).then(r=> console.log(r.contents.quotes[0]))
-// This needs to iterate through based on QB or WR or RB
+export default QBBattleContainer

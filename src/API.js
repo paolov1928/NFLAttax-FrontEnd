@@ -2,8 +2,8 @@
 
 class API {
   static init() {
-    this.baseURL = "http://localhost:3000";
-    this.signinURL = this.baseURL + "/signin";
+    this.baseURL = "http://localhost:3000"
+    this.signinURL = this.baseURL + "/signin"
   }
 
   static signin(user) {
@@ -16,7 +16,7 @@ class API {
         username: user.username,
         password: user.password
       })
-    }).then(resp => resp.json());
+    }).then(resp => resp.json())
   }
 
   static createUser(user) {
@@ -26,16 +26,16 @@ class API {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(user)
-    }).then(resp => resp.json());
+    }).then(resp => resp.json())
   }
 
   static validate() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
     return fetch("http://localhost:3000/validate", {
       headers: {
         Authorization: token
       }
-    }).then(resp => resp.json());
+    }).then(resp => resp.json())
   }
 
   static randomGIF(query, number) {
@@ -46,10 +46,16 @@ class API {
         process.env.REACT_APP_GIPHY_API_KEY +
         "&limit=" +
         number
-    ).then(r => r.json());
+    ).then(r => r.json())
+  }
+
+  static randomQuote(query) {
+    return fetch("http://quotes.rest/qod.json?category=" + query).then(r =>
+      r.json()
+    )
   }
 }
 
-API.init();
+API.init()
 
-export default API;
+export default API
