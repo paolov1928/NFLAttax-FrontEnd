@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Card, Icon, Image } from "semantic-ui-react";
-import * as usefulObject from "../Data/usefulObjects";
-import * as cardData from "../Data/CardData";
-import QBAdditionalDataFields from "./QBAdditionalDataFields";
-import RBAdditionalDataFields from "./RBAdditionalDataFields";
-import WRAdditionalDataFields from "./WRAdditionalDataFields";
-import NFLPlayerCardExtraStatistic from "./NFLPlayerCardExtraStatistic";
-import { withRouter } from "react-router-dom";
+import React, { Component } from "react"
+import { Card, Icon, Image } from "semantic-ui-react"
+import * as usefulObject from "../Data/usefulObjects"
+import * as cardData from "../Data/CardData"
+import QBAdditionalDataFields from "./QBAdditionalDataFields"
+import RBAdditionalDataFields from "./RBAdditionalDataFields"
+import WRAdditionalDataFields from "./WRAdditionalDataFields"
+import NFLPlayerCardExtraStatistic from "./NFLPlayerCardExtraStatistic"
+import { withRouter } from "react-router-dom"
 
 function renderAdditionalDataBasedOnPosition(
   position,
@@ -22,7 +22,7 @@ function renderAdditionalDataBasedOnPosition(
         compareStatistic={compareStatistic}
         toggleFade={toggleFade}
       />
-    );
+    )
   } else if (position === "RB") {
     return (
       <RBAdditionalDataFields
@@ -31,7 +31,7 @@ function renderAdditionalDataBasedOnPosition(
         toggleFade={toggleFade}
         currentGame={currentGame}
       />
-    );
+    )
   } else {
     return (
       <WRAdditionalDataFields
@@ -39,22 +39,68 @@ function renderAdditionalDataBasedOnPosition(
         compareStatistic={compareStatistic}
         toggleFade={toggleFade}
       />
-    );
+    )
   }
 }
 
 function renderAge(dateString) {
-  var today = new Date();
-  var birthDate = new Date(dateString);
-  var age = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
+  var today = new Date()
+  var birthDate = new Date(dateString)
+  var age = today.getFullYear() - birthDate.getFullYear()
+  var m = today.getMonth() - birthDate.getMonth()
   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
+    age--
   }
-  return age;
+  return age
 }
 
 class NFLPlayerCard extends Component {
+  renderStats() {
+    if (this.props.location.pathname !== "/Teams") {
+      return (
+        <React.Fragment>
+          <NFLPlayerCardExtraStatistic
+            seasonPts={this.props.seasonPts}
+            {...cardData.baseCardData.seasonPts}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
+          <NFLPlayerCardExtraStatistic
+            height={this.props.addData.height * 2.54}
+            {...cardData.baseCardData.height}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
+          <NFLPlayerCardExtraStatistic
+            weight={this.props.addData.weight}
+            {...cardData.baseCardData.weight}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
+          <NFLPlayerCardExtraStatistic
+            age={renderAge(this.props.addData.birth_date)}
+            {...cardData.baseCardData.age}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
+          <NFLPlayerCardExtraStatistic
+            draft={
+              this.props.addData.draft ? this.props.addData.draft.number : 999
+            }
+            {...cardData.baseCardData.draft}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
+        </React.Fragment>
+      )
+    }
+  }
+
   render() {
     return (
       <Card
@@ -88,55 +134,22 @@ class NFLPlayerCard extends Component {
             {usefulObject.aliasToFullName[this.props.teamAbbr]}
           </Card.Description>
         </Card.Content>
-        <NFLPlayerCardExtraStatistic
-          seasonPts={this.props.seasonPts}
-          {...cardData.baseCardData.seasonPts}
-          compareStatistic={this.props.compareStatistic}
-          toggleFade={this.props.toggleFade}
-          currentGame={this.props.currentGame}
-        />
-        <NFLPlayerCardExtraStatistic
-          height={this.props.addData.height * 2.54}
-          {...cardData.baseCardData.height}
-          compareStatistic={this.props.compareStatistic}
-          toggleFade={this.props.toggleFade}
-          currentGame={this.props.currentGame}
-        />
-        <NFLPlayerCardExtraStatistic
-          weight={this.props.addData.weight}
-          {...cardData.baseCardData.weight}
-          compareStatistic={this.props.compareStatistic}
-          toggleFade={this.props.toggleFade}
-          currentGame={this.props.currentGame}
-        />
-        <NFLPlayerCardExtraStatistic
-          age={renderAge(this.props.addData.birth_date)}
-          {...cardData.baseCardData.age}
-          compareStatistic={this.props.compareStatistic}
-          toggleFade={this.props.toggleFade}
-          currentGame={this.props.currentGame}
-        />
-        <NFLPlayerCardExtraStatistic
-          draft={
-            this.props.addData.draft ? this.props.addData.draft.number : 999
-          }
-          {...cardData.baseCardData.draft}
-          compareStatistic={this.props.compareStatistic}
-          toggleFade={this.props.toggleFade}
-          currentGame={this.props.currentGame}
-        />
-        {renderAdditionalDataBasedOnPosition(
-          this.props.position,
-          this.props.addData,
-          this.props.compareStatistic,
-          this.props.toggleFade,
-          this.props.currentGame
-        )}
+        {this.renderStats()}
+
+        {this.props.location.pathname !== "/Teams"
+          ? renderAdditionalDataBasedOnPosition(
+              this.props.position,
+              this.props.addData,
+              this.props.compareStatistic,
+              this.props.toggleFade,
+              this.props.currentGame
+            )
+          : console.log("team screen")}
       </Card>
-    );
+    )
   }
 }
-export default withRouter(NFLPlayerCard);
+export default withRouter(NFLPlayerCard)
 
 // CM Comparison is easier but would be nice in Feet
 // inches => {

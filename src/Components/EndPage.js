@@ -55,7 +55,7 @@ class EndPage extends Component {
               this.props.currentGame.players[0].team
             ]}
         </h3>
-        <Image src={this.state.randomGIF} />
+        <Image src={this.state.randomGIF} size="huge" />
         <p>Sports quote of the day:</p>
         <h3>
           <i> "{this.state.quote}" </i>
