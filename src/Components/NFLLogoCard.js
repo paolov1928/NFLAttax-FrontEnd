@@ -2,22 +2,30 @@ import React from "react"
 import { Card, Image } from "semantic-ui-react"
 import * as usefulObject from "../Data/usefulObjects"
 import { withRouter } from "react-router-dom"
-import { toast } from "react-toastify"
+import { toast } from 'react-semantic-toasts'
 
 const handleClick = props => {
   if (props.where === "/Pick") {
     localStorage.setItem("Pick", props.text)
-    toast.info(
-      "Great choice picking the " +
-        usefulObject.aliasToFullName[props.text] +
-        "!"
+    toast(
+        {
+            title: "Great choice picking the "+
+              usefulObject.aliasToFullName[props.text] +
+              "!",
+            icon: 'football ball',
+            time: 5000,
+        },
     )
     props.history.push("/Opponent")
     window.scrollTo(0, 0)
   } else if (props.where === "/Opponent") {
     localStorage.setItem("Opponent", props.text)
-    toast.info(
-      "You will be facing the " + usefulObject.aliasToFullName[props.text] + "!"
+    toast(
+        {
+            title: "You will be facing the " + usefulObject.aliasToFullName[props.text] + "!",
+            icon: 'football ball',
+            time: 5000,
+        },
     )
     props.history.push("/Teams")
     window.scrollTo(0, 0)

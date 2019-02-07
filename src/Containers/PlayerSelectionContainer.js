@@ -4,7 +4,7 @@ import * as SinglePlayerData from "../Data/singlePlayerData"
 import { Card, Button } from "semantic-ui-react"
 import NFLPlayerCard from "../Components/NFLPlayerCard"
 import RosterSegment from "../Components/RosterSegment"
-import { toast } from "react-toastify"
+import { toast } from 'react-semantic-toasts'
 
 class PlayerSelectionContainer extends Component {
   state = {
@@ -18,9 +18,14 @@ class PlayerSelectionContainer extends Component {
 
   componentDidMount() {
     this.gettingTopPlayersFromFantasyData()
-    toast.warn("Click three players to add to your lineup!", {
-      position: "top-right"
-    })
+    toast(
+        {
+            title: "Click three players to add to your lineup!",
+            icon: 'info',
+            time: 10000,
+            type: 'warning',
+        },
+    )
   }
 
   gettingTopPlayersFromFantasyData = () => {

@@ -1,10 +1,16 @@
 import React, { Component } from "react"
 import { Button, Image, Container } from "semantic-ui-react"
-import { toast } from "react-toastify"
+import { toast } from 'react-semantic-toasts';
 
 class Welcome extends Component {
   handleClick = () => {
-    toast.info("You entered the game!")
+    toast(
+        {
+            title: 'New User entered the game',
+            icon: 'football ball',
+            time: 5000,
+        },
+    );
     this.props.history.push("/Pick")
     window.scrollTo(0, 0)
   }
