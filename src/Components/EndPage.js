@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Container, Image, Button } from "semantic-ui-react"
+import { Container, Image, Button, Icon } from "semantic-ui-react"
 import API from "../API"
 import * as usefulObject from "../Data/usefulObjects"
 import { Link } from "react-router-dom"
@@ -62,7 +62,7 @@ class EndPage extends Component {
         </h3>
         <h3> {this.state.author}</h3>
         <Link to="/">
-          <Button color="grey">Rinse and Repeat?!</Button>
+          <Button color="blue">Rinse and Repeat?!<br></br><br></br><Icon name="repeat" size='big'/></Button>
         </Link>
       </Container>
     )
