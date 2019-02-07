@@ -23,7 +23,7 @@ class EndPage extends Component {
     return this.props.location.pathname === "/Win" ? "cheerleader" : "sad"
   }
 
-  randomMotivationGIF = (query = "cheerleader-happy", number = 10) => {
+  randomMotivationGIF = (query, number = 10) => {
     let randomNumber = Math.floor(Math.random() * number)
     query = this.queryDependentOnLocation()
     API.randomGIF(query, number).then(data =>

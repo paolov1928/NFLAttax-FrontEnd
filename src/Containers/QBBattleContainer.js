@@ -2,10 +2,23 @@ import React, { Component } from "react"
 import { Card, Segment, Divider, Header } from "semantic-ui-react"
 import NFLPlayerCard from "../Components/NFLPlayerCard"
 import "./battle.css"
+import { toast } from 'react-semantic-toasts'
 
 class QBBattleContainer extends Component {
   state = {
     toggle: false
+  }
+
+  componentDidMount() {
+    toast(
+        {
+            title: "Click a statistic that will beat the opponent's statistic!",
+            description: "Arrows show whether higher or lower wins",
+            icon: 'info',
+            time: 10000,
+            type: 'warning',
+        },
+    )
   }
 
   toggleFade = () => {

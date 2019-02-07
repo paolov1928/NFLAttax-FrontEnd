@@ -80,3 +80,16 @@ const RBAdditionalDataFields = props => (
 );
 
 export default RBAdditionalDataFields;
+
+
+// [].map(p=> {
+//   <NFLPlayerCardExtraStatistic
+//     p.={
+//
+//     }
+//     {...cardData.rbCardData[totalTDs]}
+//     compareStatistic={props.compareStatistic}
+//     toggleFade={props.toggleFade}
+//     currentGame={props.currentGame} />
+//
+// })

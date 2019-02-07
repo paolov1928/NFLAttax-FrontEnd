@@ -81,5 +81,3 @@ class Login extends Component {
 }
 
 export default Login;
-
-// This was the original image <Image src="http://myorthodontists.info/wp-content/uploads/2016/09/Football-Season.jpg" />
