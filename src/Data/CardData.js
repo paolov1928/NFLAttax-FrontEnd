@@ -1,70 +1,88 @@
+
+// make this an array and then can just iterate through
+
+
 export const baseCardData = {
   seasonPts: {
     syntax: "Fantasy Points",
     method: data => Math.round(data),
     comparison: "up"
+
   },
   height: {
+    addDataLookup: "height",
     syntax: "Height (cm)",
-    method: data => Math.round(data),
+    method: data => Math.round(data*2.54),
     comparison: "up"
   },
   weight: {
+    addDataLookup: "weight",
     syntax: "Weight (lbs)",
     method: data => Math.round(data),
     comparison: "up"
   },
   age: {
+    addDataLookup: "birth_date",
     syntax: "Age (years)",
-    method: data => data,
+    method: dateString => {
+      var today = new Date()
+      var birthDate = new Date(dateString)
+      var age = today.getFullYear() - birthDate.getFullYear()
+      var m = today.getMonth() - birthDate.getMonth()
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+      }
+      return age
+    },
     comparison: "up"
   },
   draft: {
+    addDataLookup: "draft",
     syntax: "Draft (pick)",
-    method: data => (data === 999 ? "Undrafted" : data),
+    method: data => data ? data.number : 'Undrafted',
     comparison: "down"
   }
 };
 
 export const qbCardData = {
   totalTDs: {
+    stat: [["passing", "touchdowns"],["rushing", "touchdowns"]],
     syntax: "Total TDs",
-    method: data => data,
     comparison: "up"
   },
   redZoneAttempts: {
+    stat: [["passing", "redzone_attempts"],["rushing", "redzone_attempts"]],
     syntax: "Red Zone Attempts",
-    method: data => data,
     comparison: "up"
   },
   avgPassingYards: {
+    stat: [["passing", "avg_yards"]],
     syntax: "Avg Passing Yards",
-    method: data => data,
     comparison: "up"
   },
   qbRating: {
+    stat: [["passing", "rating"]],
     syntax: "QB Rating",
-    method: data => data,
     comparison: "up"
   },
   sackYards: {
+    stat: [["passing", "sack_yards"]],
     syntax: "Sack Yards",
-    method: data => data,
     comparison: "down"
   },
   poorThrows: {
+    stat: [["passing", "poor_throws"]],
     syntax: "Poor Throws",
-    method: data => data,
     comparison: "down"
   },
   averagePocketTime: {
+    stat: [["passing", "avg_pocket_time"]],
     syntax: "Average Pocket Time",
-    method: data => data,
     comparison: "down"
   },
   longestPassingTD: {
+    stat: [["passing", "longest_touchdown"]],
     syntax: "Longest Passing TD",
-    method: data => data,
     comparison: "up"
   }
 };
@@ -144,3 +162,8 @@ export const wrCardData = {
     comparison: "up"
   }
 };
+
+
+export const statisticsLookup = (typeOfStat, actualStat, props) =>
+  props.seasons.find(s => s.year === 2018 && s.type === "REG").teams[0]
+    .statistics[typeOfStat][actualStat]

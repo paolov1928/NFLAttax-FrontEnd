@@ -15,6 +15,7 @@ import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer"
 import QBBattleContainer from "./Containers/QBBattleContainer"
 import WRBattleContainer from "./Containers/WRBattleContainer"
 import RBBattleContainer from "./Containers/RBBattleContainer"
+import NewDataContainer from "./Containers/NewDataContainer"
 import Game from "./Game-Logic/1game"
 import Player from "./Game-Logic/1player"
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
@@ -168,9 +169,16 @@ class App extends Component {
           <Link to="/RBBattle">Battle your RBs!</Link>..
           <Link to="/Win">Winners</Link>..
           <Link to="/Loss">Losers</Link>..
+          <Link to="/NewData">NewData</Link>..
           <button onClick={this.signOut}>SignOut</button>
           <hr />
           <Switch>
+            <Route
+              path="/NewData"
+              component={routerProps => (
+                <NewDataContainer {...routerProps} />
+              )}
+            />
             <Route
               path="/Loss"
               component={routerProps => (
