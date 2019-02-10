@@ -25,7 +25,7 @@ class NewDataContainer extends Component {
     const transformation = CardData.baseCardData[key].method
     newDeck.forEach(p=> {
 
-      p[newKey] = transformation(addData.filter(addPData => {
+      p['baseComparables'][newKey] = transformation(addData.filter(addPData => {
             if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
               return true
             }
@@ -34,10 +34,10 @@ class NewDataContainer extends Component {
     return newDeck
   }
 
-  addingQBStatsToDeck = (deck, key) => {
+  addingQBStatsToDeck = (deck, key, i) => {
     let newDeck = deck
     const addData = this.state.additionalDataForTop5Players
-    const newKey = CardData.qbCardData[key].syntax
+    const newKey = CardData.qbCardData[i].syntax
     const statisticsLookup = CardData.statisticsLookup
 
     newDeck.forEach(p=> {
@@ -47,9 +47,9 @@ class NewDataContainer extends Component {
             return true
           }
         })[0]
-        let arrayOfStatsLookups = CardData.qbCardData[key].stat.map(l=> statisticsLookup(l[0], l[1], thatQBaddData))
+        let arrayOfStatsLookups = CardData.qbCardData[i].stat.map(l=> statisticsLookup(l[0], l[1], thatQBaddData))
         const reducer = (accumulator, currentValue) => accumulator + currentValue
-        p[newKey] = arrayOfStatsLookups.reduce(reducer)
+        p["positionSpecificComparables"][newKey] = arrayOfStatsLookups.reduce(reducer)
       }
     })
     return newDeck
@@ -64,19 +64,16 @@ class NewDataContainer extends Component {
       delete p['weekProjectedPts']
     })
     // Need to get these iterating over
+    deckOfPlayerCards.forEach(p => p["baseComparables"] = {})
     deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'weight')
     deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'height')
     deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'age')
     deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'draft')
-    deckOfPlayerCards.forEach(p => p["Fantasy Points"] = Math.round(p.seasonPts))
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'totalTDs')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'redZoneAttempts')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'avgPassingYards')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'qbRating')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'sackYards')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'poorThrows')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'averagePocketTime')
-    deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, 'longestPassingTD')
+    deckOfPlayerCards.forEach(p => p["baseComparables"]["Fantasy Points"] = Math.round(p.seasonPts))
+    deckOfPlayerCards.forEach(p => p["positionSpecificComparables"] = {})
+    CardData.qbCardData.forEach((obj, i) => {
+      deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, obj.key, i)
+    })
     this.setState({deckOfPlayerCards})
   }
 

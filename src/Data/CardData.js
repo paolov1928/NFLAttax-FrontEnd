@@ -3,12 +3,6 @@
 
 
 export const baseCardData = {
-  seasonPts: {
-    syntax: "Fantasy Points",
-    method: data => Math.round(data),
-    comparison: "up"
-
-  },
   height: {
     addDataLookup: "height",
     syntax: "Height (cm)",
@@ -44,48 +38,56 @@ export const baseCardData = {
   }
 };
 
-export const qbCardData = {
-  totalTDs: {
+export const qbCardData =
+  [{
+    key: "totalTDs",
     stat: [["passing", "touchdowns"],["rushing", "touchdowns"]],
     syntax: "Total TDs",
     comparison: "up"
   },
-  redZoneAttempts: {
+   {
+    key: "redZoneAttempts",
     stat: [["passing", "redzone_attempts"],["rushing", "redzone_attempts"]],
     syntax: "Red Zone Attempts",
     comparison: "up"
   },
-  avgPassingYards: {
+  {
+    key: "avgPassingYards",
     stat: [["passing", "avg_yards"]],
     syntax: "Avg Passing Yards",
     comparison: "up"
   },
-  qbRating: {
+  {
+    key: "qbRating",
     stat: [["passing", "rating"]],
     syntax: "QB Rating",
     comparison: "up"
   },
-  sackYards: {
+  {
+    key: "sackYards",
     stat: [["passing", "sack_yards"]],
     syntax: "Sack Yards",
     comparison: "down"
   },
-  poorThrows: {
+  {
+    key: "poorThrows",
     stat: [["passing", "poor_throws"]],
     syntax: "Poor Throws",
     comparison: "down"
   },
-  averagePocketTime: {
+  {
+    key: "averagePocketTime",
     stat: [["passing", "avg_pocket_time"]],
     syntax: "Average Pocket Time",
     comparison: "down"
   },
-  longestPassingTD: {
+  {
+    key: "longestPassingTD",
     stat: [["passing", "longest_touchdown"]],
     syntax: "Longest Passing TD",
     comparison: "up"
-  }
-};
+  }]
+;
 
 export const rbCardData = {
   totalTDs: {
