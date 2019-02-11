@@ -1,13 +1,15 @@
 import React, { Component } from "react"
 import { Card, Image } from "semantic-ui-react"
 import * as usefulObject from "../Data/usefulObjects"
-import QBAdditionalDataFields from "./QBAdditionalDataFields"
-import RBAdditionalDataFields from "./RBAdditionalDataFields"
-import WRAdditionalDataFields from "./WRAdditionalDataFields"
 import Statistic from "./Statistic"
 import { withRouter } from "react-router-dom"
 
 class NFLPlayerCard extends Component {
+  renderBaseStats() {
+    // if (this.props.location.pathname !== "/Teams") {
+    return <React.Fragment />
+  }
+
   render() {
     return (
       <Card
@@ -41,6 +43,12 @@ class NFLPlayerCard extends Component {
             {usefulObject.aliasToFullName[this.props.teamAbbr]}
           </Card.Description>
         </Card.Content>
+        {this.props.baseComparables.map((stat, i) => (
+          <Statistic {...stat} key={i} />
+        ))}
+        {this.props.positionSpecificComparables.map((stat, i) => (
+          <Statistic {...stat} key={i} />
+        ))}
       </Card>
     )
   }

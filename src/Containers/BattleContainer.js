@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import { Card, Segment, Divider, Header } from "semantic-ui-react"
-import NFLPlayerCard from "../Components/NFLPlayerCard"
+import NewPlayerCard from "../Components/NewPlayerCard"
 import "./battle.css"
 import { toast } from "react-semantic-toasts"
 
-class QBBattleContainer extends Component {
+class BattleContainer extends Component {
   state = {
     toggle: false
   }
@@ -23,14 +23,11 @@ class QBBattleContainer extends Component {
     this.setState({ toggle: true })
   }
 
-  QBarray = [
-    this.props.currentGame.players[1].qb[0],
-    this.props.currentGame.players[0].qb[0]
+  Table = [
+    this.props.currentGame.players[1].qb,
+    this.props.currentGame.players[0].qb
   ]
-  QBaddDataArray = [
-    this.props.currentGame.players[1].qb[1],
-    this.props.currentGame.players[0].qb[1]
-  ]
+  // Make this a function that is dependent on round
 
   render() {
     return (
@@ -44,11 +41,10 @@ class QBBattleContainer extends Component {
             subheader="Sure, luck means a lot in football. Not having a good quarterback is bad luck. - Don Shula"
           />
           <Card.Group itemsPerRow={2}>
-            {this.QBarray.map((p, i) => (
-              <NFLPlayerCard
+            {this.Table.map((p, i) => (
+              <NewPlayerCard
                 {...p}
                 key={p.id}
-                addData={this.QBaddDataArray[i]}
                 compareStatistic={this.props.compareStatistic}
                 playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
                 toggle={this.state.toggle}
@@ -66,4 +62,4 @@ class QBBattleContainer extends Component {
   }
 }
 
-export default QBBattleContainer
+export default BattleContainer

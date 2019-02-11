@@ -1,24 +1,28 @@
 class Game {
   constructor() {
-    this.players = [];
-    this.table = [];
-    this.isGameWon = false;
-    this.p1roundCount = 0;
+    this.players = []
+    this.table = []
+    this.currentRound = 0
+    this.p1roundCount = 0
+  }
+
+  moveToNextRound = () => {
+    this.currentRound++
   }
 
   playerWonRound = () => {
-    this.p1roundCount++;
-  };
+    this.p1roundCount++
+  }
 
   playerCount = () => {
-    return this.players.length;
-  };
+    return this.players.length
+  }
   addPlayer = newPlayer => {
-    this.players.push(newPlayer);
-  };
+    this.players.push(newPlayer)
+  }
 }
 
-export default Game;
+export default Game
 
 // This gets an array of all of the stats shown on the page
 // totalDataArray = Array.from(document.querySelectorAll('.extra')).map(n => n.innerText).map(n => n.split(":"))

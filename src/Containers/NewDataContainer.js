@@ -33,6 +33,8 @@ class NewDataContainer extends Component {
     const addDataKey = CardData.baseCardData[i].addDataLookup
     const newKey = CardData.baseCardData[i].syntax
     const transformation = CardData.baseCardData[i].method
+    const comparison = CardData.baseCardData[i].comparison
+
     newDeck.forEach(p => {
       p["baseComparables"].push({
         [newKey]: transformation(
@@ -45,7 +47,8 @@ class NewDataContainer extends Component {
               return true
             }
           })[0][addDataKey]
-        )
+        ),
+        ["comparison"]: comparison
       })
     })
     return newDeck
@@ -58,6 +61,7 @@ class NewDataContainer extends Component {
     const statisticsLookup = CardData.statisticsLookup
     const doesTypeOfStatExist = CardData.doesTypeOfStatExist
     const reducer = (accumulator, currentValue) => accumulator + currentValue
+    const comparison = CardData[position + "CardData"][i].comparison
 
     newDeck.forEach(p => {
       if (p.position === position.toUpperCase()) {
@@ -84,7 +88,8 @@ class NewDataContainer extends Component {
         )
 
         p["positionSpecificComparables"].push({
-          [newKey]: correctedArray.reduce(reducer)
+          [newKey]: correctedArray.reduce(reducer),
+          ["comparison"]: comparison
         })
       }
     })
@@ -105,7 +110,10 @@ class NewDataContainer extends Component {
       deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, i)
     })
     deckOfPlayerCards.forEach(p =>
-      p["baseComparables"].push({ ["Fantasy Points"]: Math.round(p.seasonPts) })
+      p["baseComparables"].push({
+        ["Fantasy Points"]: Math.round(p.seasonPts),
+        ["comparison"]: "up"
+      })
     )
     deckOfPlayerCards.forEach(p => (p["positionSpecificComparables"] = []))
     CardData.qbCardData.forEach((obj, i) => {
@@ -188,15 +196,15 @@ class NewDataContainer extends Component {
           createGame={this.props.createGame}
         />
         <Button
-          size="big"
+          size="massive"
           color="red"
           attached="bottom"
           onClick={() => {
             this.props.createGame(this.state)
-            this.props.history.push("/QBBattle")
+            // this.props.history.push("/QBBattle")
           }}
         >
-          Let's Play
+          🏈 Let's Play 🏈
         </Button>
         <Card.Group itemsPerRow={5}>
           {this.filterIfPickHasBeenMade().map(p => (

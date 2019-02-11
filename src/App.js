@@ -15,11 +15,12 @@ import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer"
 import QBBattleContainer from "./Containers/QBBattleContainer"
 import WRBattleContainer from "./Containers/WRBattleContainer"
 import RBBattleContainer from "./Containers/RBBattleContainer"
+import BattleContainer from "./Containers/BattleContainer"
 import NewDataContainer from "./Containers/NewDataContainer"
 import Game from "./Game-Logic/1game"
 import Player from "./Game-Logic/1player"
-import { SemanticToastContainer, toast } from 'react-semantic-toasts';
-import 'react-semantic-toasts/styles/react-semantic-alert.css';
+import { SemanticToastContainer, toast } from "react-semantic-toasts"
+import "react-semantic-toasts/styles/react-semantic-alert.css"
 
 class App extends Component {
   state = {
@@ -43,20 +44,11 @@ class App extends Component {
     localStorage.removeItem("Opponent")
   }
 
-  filterAdditionalDataForThatCard = (gsis, addData) => {
-    // This filters down the additional data to that one player... JOSH GORDON IS missing
-    return addData.filter(addPData => {
-      if (addPData.references.find(o => o.origin === "gsis" && o.id === gsis)) {
-        return true
-      }
-    })[0]
-  }
-
-  createGame = playerSelectionContainerState => {
+  createGame = playersSelected => {
     if (
-      !playerSelectionContainerState.selectedQB ||
-      !playerSelectionContainerState.selectedRB ||
-      !playerSelectionContainerState.selectedWR
+      !playersSelected.selectedQB ||
+      !playersSelected.selectedRB ||
+      !playersSelected.selectedWR
     ) {
       window.alert("pick again")
     } else {
@@ -64,46 +56,16 @@ class App extends Component {
       // Computer gets assigned its players randomly from the 5. Uses the code in 1player
       let computer = new Player("Computer")
       computer.team = localStorage.getItem("Opponent")
-      computer.computerAssignPlayers(
-        playerSelectionContainerState.top5PlayersByTeamFantasyData,
-        playerSelectionContainerState.additionalDataForTop5Players
-      )
-
+      computer.computerAssignPlayers(playersSelected.deckOfPlayerCards)
       let player = new Player("Player")
       player.team = localStorage.getItem("Pick")
       // The below is adding that players fantasy data object to the game instance
-      player.qb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
-        p => p.esbid === playerSelectionContainerState.selectedQB
-      )
-      const qbGSIS = player.qb[0].gsisPlayerId
-      player.qb.push(
-        this.filterAdditionalDataForThatCard(
-          qbGSIS,
-          playerSelectionContainerState.additionalDataForTop5Players
-        )
-      )
-      player.wr = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
-        p => p.esbid === playerSelectionContainerState.selectedWR
-      )
-      const wrGSIS = player.wr[0].gsisPlayerId
-      player.wr.push(
-        this.filterAdditionalDataForThatCard(
-          wrGSIS,
-          playerSelectionContainerState.additionalDataForTop5Players
-        )
-      )
-      player.rb = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
-        p => p.esbid === playerSelectionContainerState.selectedRB
-      )
-      const rbGSIS = player.rb[0].gsisPlayerId
-      player.rb.push(
-        this.filterAdditionalDataForThatCard(
-          rbGSIS,
-          playerSelectionContainerState.additionalDataForTop5Players
-        )
-      )
+      player.qb = playersSelected.selectedQB
+      player.wr = playersSelected.selectedWR
+      player.rb = playersSelected.selectedRB
       game.addPlayer(computer)
       game.addPlayer(player)
+      game.moveToNextRound()
       this.setState({ currentGame: game })
     }
   }
@@ -130,22 +92,18 @@ class App extends Component {
       actualResult = !actualResult
     }
     actualResult === true
-      ?  toast(
-            {
-                title: goodResult,
-                icon: 'winner',
-                time: 5000,
-                type: 'success',
-            },
-        )
-      : toast(
-          {
-              title: badResult,
-              icon: 'ban',
-              time: 5000,
-              type: 'error',
-          },
-      )
+      ? toast({
+          title: goodResult,
+          icon: "winner",
+          time: 5000,
+          type: "success"
+        })
+      : toast({
+          title: badResult,
+          icon: "ban",
+          time: 5000,
+          type: "error"
+        })
     let game = this.state.currentGame
     if (actualResult === true) {
       game.playerWonRound()
@@ -170,13 +128,28 @@ class App extends Component {
           <Link to="/Win">Winners</Link>..
           <Link to="/Loss">Losers</Link>..
           <Link to="/NewData">NewData</Link>..
+          <Link to="/Battle">Battle players!</Link>..
           <button onClick={this.signOut}>SignOut</button>
           <hr />
           <Switch>
             <Route
+              path="/Battle"
+              component={routerProps => (
+                <BattleContainer
+                  {...routerProps}
+                  currentUser={currentUser}
+                  currentGame={currentGame}
+                  compareStatistic={this.compareStatistic}
+                />
+              )}
+            />
+            <Route
               path="/NewData"
               component={routerProps => (
-                <NewDataContainer {...routerProps} />
+                <NewDataContainer
+                  {...routerProps}
+                  createGame={this.createGame}
+                />
               )}
             />
             <Route
@@ -264,7 +237,7 @@ class App extends Component {
               )}
             />
           </Switch>
-        <SemanticToastContainer />
+          <SemanticToastContainer />
         </React.Fragment>
       </Router>
     )
@@ -279,14 +252,14 @@ export default App
 // <div style = {{ backgroundImage: 'url(' + imgUrl + ')'}}>
 
 // populatePlayerPositionArrays = (position) => {
-//   player.position = playerSelectionContainerState.top5PlayersByTeamFantasyData.filter(
-//     p => p.esbid === playerSelectionContainerState.[`selected${position}`]
+//   player.position = playersSelected.top5PlayersByTeamFantasyData.filter(
+//     p => p.esbid === playersSelected.[`selected${position}`]
 //   );
 //   const GSIS = player.position[0].gsisPlayerId;
 //   player.position.push(
 //     this.filterAdditionalDataForThatCard(
 //       GSIS,
-//       playerSelectionContainerState.additionalDataForTop5Players
+//       playersSelected.additionalDataForTop5Players
 //     )
 //   );
 // }
