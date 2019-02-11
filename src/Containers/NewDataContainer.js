@@ -1,148 +1,138 @@
-import React, {
-  Component
-} from "react"
+import React, { Component } from "react"
 import * as CompiledFantasyData from "../Data/AllNflFantasyData"
 import * as SinglePlayerData from "../Data/singlePlayerData"
 import * as CardData from "../Data/CardData"
+import { toast } from "react-semantic-toasts"
+import NewPlayerCard from "../Components/NewPlayerCard"
+import RosterSegment from "../Components/RosterSegment"
+import { Card, Button } from "semantic-ui-react"
 
 class NewDataContainer extends Component {
   state = {
     additionalDataForTop5Players: SinglePlayerData.singlePlayerData,
     top5PlayersByTeamFantasyData: [],
     deckOfPlayerCards: [],
+    selectedQB: "",
+    selectedWR: "",
+    selectedRB: ""
   }
 
   componentDidMount() {
     this.gettingTopPlayersFromFantasyData()
-
+    toast({
+      title: "Click three players to add to your lineup!",
+      icon: "info",
+      time: 10000,
+      type: "warning"
+    })
   }
 
-  addKeyToTheDeck = (deck, key) =>{
+  addKeyToTheDeck = (deck, key) => {
     let newDeck = deck
     const addData = this.state.additionalDataForTop5Players
     const addDataKey = CardData.baseCardData[key].addDataLookup
     const newKey = CardData.baseCardData[key].syntax
     const transformation = CardData.baseCardData[key].method
-    newDeck.forEach(p=> {
+    newDeck.forEach(p => {
+      p["baseComparables"][newKey] = transformation(
+        addData.filter(addPData => {
+          if (
+            addPData.references.find(
+              o => o.origin === "gsis" && o.id === p.gsisPlayerId
+            )
+          ) {
+            return true
+          }
+        })[0][addDataKey]
+      )
+    })
+    return newDeck
+  }
 
-      p['baseComparables'][newKey] = transformation(addData.filter(addPData => {
-            if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
-              return true
+  addingStatsToDeck = (deck, key, i, position) => {
+    let newDeck = deck
+    const addData = this.state.additionalDataForTop5Players
+    const newKey = CardData[position + "CardData"][i].syntax
+    const statisticsLookup = CardData.statisticsLookup
+    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
+    const reducer = (accumulator, currentValue) => accumulator + currentValue
+
+    newDeck.forEach(p => {
+      if (p.position === position.toUpperCase()) {
+        const thatPlayerAddData = addData.filter(addPData => {
+          if (
+            addPData.references.find(
+              o => o.origin === "gsis" && o.id === p.gsisPlayerId
+            )
+          ) {
+            return true
+          }
+        })[0]
+
+        let arrayOfStatsLookups = CardData[position + "CardData"][i].stat.map(
+          l => {
+            if (doesTypeOfStatExist(l[0], thatPlayerAddData)) {
+              return statisticsLookup(l[0], l[1], thatPlayerAddData)
             }
-          })[0][addDataKey])
-    })
-    return newDeck
-  }
-
-  addingQBStatsToDeck = (deck, key, i) => {
-    let newDeck = deck
-    const addData = this.state.additionalDataForTop5Players
-    const newKey = CardData.qbCardData[i].syntax
-    const statisticsLookup = CardData.statisticsLookup
-    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
-    const reducer = (accumulator, currentValue) => accumulator + currentValue
-
-
-    newDeck.forEach(p=> {
-      if (p.position === 'QB')
-      { const thatQBaddData = addData.filter(addPData => {
-          if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
-            return true
           }
-        })[0]
+        )
 
-        let arrayOfStatsLookups = CardData.qbCardData[i].stat.map(l=> {if (doesTypeOfStatExist(l[0], thatQBaddData)) { return statisticsLookup(l[0], l[1], thatQBaddData)}})
+        const correctedArray = arrayOfStatsLookups.map(e =>
+          e === undefined ? (e = 0) : e
+        )
 
-        const correctedArray = arrayOfStatsLookups.map(e=> e === undefined? e=0: e)
-
-        p["positionSpecificComparables"][newKey] = correctedArray.reduce(reducer)
+        p["positionSpecificComparables"].push({
+          [newKey]: correctedArray.reduce(reducer)
+        })
       }
     })
     return newDeck
   }
 
-  addingRBStatsToDeck = (deck, key, i) => {
-    let newDeck = deck
-    const addData = this.state.additionalDataForTop5Players
-    const newKey = CardData.rbCardData[i].syntax
-    const statisticsLookup = CardData.statisticsLookup
-    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
-    const reducer = (accumulator, currentValue) => accumulator + currentValue
-
-
-    newDeck.forEach(p=> {
-      if (p.position === 'RB')
-      { const thatRBaddData = addData.filter(addPData => {
-          if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
-            return true
-          }
-        })[0]
-
-        let arrayOfStatsLookups = CardData.rbCardData[i].stat.map(l=> {if (doesTypeOfStatExist(l[0], thatRBaddData)) { return statisticsLookup(l[0], l[1], thatRBaddData)}})
-
-        const correctedArray = arrayOfStatsLookups.map(e=> e === undefined? e=0: e)
-
-        p["positionSpecificComparables"][newKey] = correctedArray.reduce(reducer)
-      }
-    })
-    return newDeck
-  }
-
-  addingWRStatsToDeck = (deck, key, i) => {
-    let newDeck = deck
-    const addData = this.state.additionalDataForTop5Players
-    const newKey = CardData.wrCardData[i].syntax
-    const statisticsLookup = CardData.statisticsLookup
-    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
-    const reducer = (accumulator, currentValue) => accumulator + currentValue
-
-
-    newDeck.forEach(p=> {
-      if (p.position === 'WR')
-      { const thatWRaddData = addData.filter(addPData => {
-          if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
-            return true
-          }
-        })[0]
-
-        let arrayOfStatsLookups = CardData.wrCardData[i].stat.map(l=> {if (doesTypeOfStatExist(l[0], thatWRaddData)) { return statisticsLookup(l[0], l[1], thatWRaddData)}})
-
-        const correctedArray = arrayOfStatsLookups.map(e=> e === undefined? e=0: e)
-
-        p["positionSpecificComparables"][newKey] = correctedArray.reduce(reducer)
-      }
-    })
-    return newDeck
-  }
-
-  calculatingTheDeck = (top5Final) => {
+  calculatingTheDeck = top5Final => {
     let deckOfPlayerCards = top5Final
     top5Final.forEach(p => {
-      delete p['weekPts']
-      delete p['seasonProjectedPts']
-      delete p['stats']
-      delete p['weekProjectedPts']
+      delete p["weekPts"]
+      delete p["seasonProjectedPts"]
+      delete p["stats"]
+      delete p["weekProjectedPts"]
     })
     // Need to get these iterating over
-    deckOfPlayerCards.forEach(p => p["baseComparables"] = {})
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'weight')
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'height')
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'age')
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, 'draft')
-    deckOfPlayerCards.forEach(p => p["baseComparables"]["Fantasy Points"] = Math.round(p.seasonPts))
-    deckOfPlayerCards.forEach(p => p["positionSpecificComparables"] = {})
+    deckOfPlayerCards.forEach(p => (p["baseComparables"] = {}))
+    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "weight")
+    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "height")
+    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "age")
+    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "draft")
+    deckOfPlayerCards.forEach(
+      p => (p["baseComparables"]["Fantasy Points"] = Math.round(p.seasonPts))
+    )
+    deckOfPlayerCards.forEach(p => (p["positionSpecificComparables"] = []))
     CardData.qbCardData.forEach((obj, i) => {
-      deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, obj.key, i)
+      deckOfPlayerCards = this.addingStatsToDeck(
+        deckOfPlayerCards,
+        obj.key,
+        i,
+        "qb"
+      )
     })
     CardData.rbCardData.forEach((obj, i) => {
-      deckOfPlayerCards = this.addingRBStatsToDeck(deckOfPlayerCards, obj.key, i)
+      deckOfPlayerCards = this.addingStatsToDeck(
+        deckOfPlayerCards,
+        obj.key,
+        i,
+        "rb"
+      )
     })
     CardData.wrCardData.forEach((obj, i) => {
-      deckOfPlayerCards = this.addingWRStatsToDeck(deckOfPlayerCards, obj.key, i)
+      deckOfPlayerCards = this.addingStatsToDeck(
+        deckOfPlayerCards,
+        obj.key,
+        i,
+        "wr"
+      )
     })
 
-
-    this.setState({deckOfPlayerCards})
+    this.setState({ deckOfPlayerCards })
   }
 
   gettingTopPlayersFromFantasyData = () => {
@@ -155,36 +145,79 @@ class NewDataContainer extends Component {
     for (i = 0; i < teams.length; i++) {
       top5ByTeam.push(
         fantasyData
-        .filter(p => p.position === "QB")
-        .filter(qb => qb.teamAbbr === teams[i])
-        .slice(0, 1)
+          .filter(p => p.position === "QB")
+          .filter(qb => qb.teamAbbr === teams[i])
+          .slice(0, 1)
       )
       top5ByTeam.push(
         fantasyData
-        .filter(p => p.position === "RB")
-        .filter(rb => rb.teamAbbr === teams[i])
-        .slice(0, 2)
+          .filter(p => p.position === "RB")
+          .filter(rb => rb.teamAbbr === teams[i])
+          .slice(0, 2)
       )
       top5ByTeam.push(
         fantasyData
-        .filter(p => p.position === "WR")
-        .filter(wr => wr.teamAbbr === teams[i])
-        .slice(0, 2)
+          .filter(p => p.position === "WR")
+          .filter(wr => wr.teamAbbr === teams[i])
+          .slice(0, 2)
       )
     }
     const top5Final = top5ByTeam.flat()
-    this.setState({
-      top5PlayersByTeamFantasyData: top5Final
-    }, this.calculatingTheDeck(top5Final))
+    this.setState(
+      {
+        top5PlayersByTeamFantasyData: top5Final
+      },
+      this.calculatingTheDeck(top5Final)
+    )
   }
 
+  filterIfPickHasBeenMade = () => {
+    // if they have made a pick then show that team's players.. should always happen but dont want it to break.
+    return localStorage.getItem("Pick")
+      ? this.state.deckOfPlayerCards.filter(
+          p => p.teamAbbr === localStorage.getItem("Pick")
+        )
+      : this.state.top5PlayersByTeamFantasyData
+  }
+
+  selectPlayer = props => {
+    // Eventually will want to feed up a whole compiled object for player
+    if (props.position === "QB") {
+      this.setState({ selectedQB: props })
+    } else if (props.position === "WR") {
+      this.setState({ selectedWR: props })
+    } else {
+      this.setState({ selectedRB: props })
+    }
+  }
 
   render() {
-    return ( <
-      React.Fragment >
-      <
-      h1 > Player Roster - choose 1 QB, 1 RB and 1 WR < /h1> <
-      /React.Fragment>
+    return (
+      <React.Fragment>
+        <h1>Player Roster - choose 1 QB, 1 RB and 1 WR</h1>
+        <RosterSegment
+          selectedQB={this.state.selectedQB}
+          selectedWR={this.state.selectedWR}
+          selectedRB={this.state.selectedRB}
+          createGame={this.props.createGame}
+        />
+        <Button
+          size="big"
+          color="red"
+          attached="bottom"
+          onClick={() => {
+            this.props.createGame(this.state)
+            this.props.history.push("/QBBattle")
+          }}
+        >
+          Let's Play
+        </Button>
+        <Card.Group itemsPerRow={5}>
+          {this.filterIfPickHasBeenMade().map(p => (
+            <NewPlayerCard {...p} key={p.id} selectPlayer={this.selectPlayer} />
+          ))}
+        </Card.Group>
+      </React.Fragment>
     )
   }
 }

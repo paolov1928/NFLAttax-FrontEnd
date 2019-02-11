@@ -1,8 +1,8 @@
-import React from "react";
-import { Grid, Header, Segment, Image } from "semantic-ui-react";
+import React from "react"
+import { Grid, Header, Segment, Image } from "semantic-ui-react"
 
 const placeholderUrl =
-  "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/PAOLO.png";
+  "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/PLACEHOLDER.png"
 
 const holdingImage = () => {
   // if they have made a pick then show their team.. should always happen but dont want it to break.
@@ -10,29 +10,28 @@ const holdingImage = () => {
     ? "https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/" +
         localStorage.getItem("Pick") +
         ".svg"
-    : placeholderUrl;
-};
-const quarterBackHoldingImage = props => {
-  return props.selectedQB
-    ? "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
-        props.selectedQB +
-        ".png"
-    : placeholderUrl;
-};
-const wideReceiverHoldingImage = props => {
-  return props.selectedWR
-    ? "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
-        props.selectedWR +
-        ".png"
-    : placeholderUrl;
-};
-const runningBackHoldingImage = props => {
-  return props.selectedRB
-    ? "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
-        props.selectedRB +
-        ".png"
-    : placeholderUrl;
-};
+    : placeholderUrl
+}
+const ifStatement = (props, position) => {
+  return props["selected" + position] ? (
+    <React.Fragment>
+      <Image
+        src={
+          "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" +
+          props["selected" + position].esbid +
+          ".png"
+        }
+        centered
+      />
+      <Header>{props["selected" + position].name}</Header>
+    </React.Fragment>
+  ) : (
+    <React.Fragment>
+      <Image src={placeholderUrl} centered />
+      <Header>Click a {position}</Header>
+    </React.Fragment>
+  )
+}
 
 const SegmentExamplePlaceholderGrid = props => (
   <Segment placeholder attached>
@@ -44,19 +43,19 @@ const SegmentExamplePlaceholderGrid = props => (
         </Grid.Column>
         <Grid.Column>
           <Header>Quarterback</Header>
-          <Image src={quarterBackHoldingImage(props)} centered />
+          {ifStatement(props, "QB")}
         </Grid.Column>
         <Grid.Column>
           <Header>Running Back</Header>
-          <Image src={runningBackHoldingImage(props)} centered />
+          {ifStatement(props, "RB")}
         </Grid.Column>
         <Grid.Column>
           <Header>Wide Receiver</Header>
-          <Image src={wideReceiverHoldingImage(props)} centered />
+          {ifStatement(props, "WR")}
         </Grid.Column>
       </Grid.Row>
     </Grid>
   </Segment>
-);
+)
 
-export default SegmentExamplePlaceholderGrid;
+export default SegmentExamplePlaceholderGrid
