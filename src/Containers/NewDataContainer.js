@@ -27,29 +27,31 @@ class NewDataContainer extends Component {
     })
   }
 
-  addKeyToTheDeck = (deck, key) => {
+  addKeyToTheDeck = (deck, i) => {
     let newDeck = deck
     const addData = this.state.additionalDataForTop5Players
-    const addDataKey = CardData.baseCardData[key].addDataLookup
-    const newKey = CardData.baseCardData[key].syntax
-    const transformation = CardData.baseCardData[key].method
+    const addDataKey = CardData.baseCardData[i].addDataLookup
+    const newKey = CardData.baseCardData[i].syntax
+    const transformation = CardData.baseCardData[i].method
     newDeck.forEach(p => {
-      p["baseComparables"][newKey] = transformation(
-        addData.filter(addPData => {
-          if (
-            addPData.references.find(
-              o => o.origin === "gsis" && o.id === p.gsisPlayerId
-            )
-          ) {
-            return true
-          }
-        })[0][addDataKey]
-      )
+      p["baseComparables"].push({
+        [newKey]: transformation(
+          addData.filter(addPData => {
+            if (
+              addPData.references.find(
+                o => o.origin === "gsis" && o.id === p.gsisPlayerId
+              )
+            ) {
+              return true
+            }
+          })[0][addDataKey]
+        )
+      })
     })
     return newDeck
   }
 
-  addingStatsToDeck = (deck, key, i, position) => {
+  addingStatsToDeck = (deck, i, position) => {
     let newDeck = deck
     const addData = this.state.additionalDataForTop5Players
     const newKey = CardData[position + "CardData"][i].syntax
@@ -98,38 +100,22 @@ class NewDataContainer extends Component {
       delete p["weekProjectedPts"]
     })
     // Need to get these iterating over
-    deckOfPlayerCards.forEach(p => (p["baseComparables"] = {}))
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "weight")
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "height")
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "age")
-    deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, "draft")
-    deckOfPlayerCards.forEach(
-      p => (p["baseComparables"]["Fantasy Points"] = Math.round(p.seasonPts))
+    deckOfPlayerCards.forEach(p => (p["baseComparables"] = []))
+    CardData.baseCardData.forEach((obj, i) => {
+      deckOfPlayerCards = this.addKeyToTheDeck(deckOfPlayerCards, i)
+    })
+    deckOfPlayerCards.forEach(p =>
+      p["baseComparables"].push({ ["Fantasy Points"]: Math.round(p.seasonPts) })
     )
     deckOfPlayerCards.forEach(p => (p["positionSpecificComparables"] = []))
     CardData.qbCardData.forEach((obj, i) => {
-      deckOfPlayerCards = this.addingStatsToDeck(
-        deckOfPlayerCards,
-        obj.key,
-        i,
-        "qb"
-      )
+      deckOfPlayerCards = this.addingStatsToDeck(deckOfPlayerCards, i, "qb")
     })
     CardData.rbCardData.forEach((obj, i) => {
-      deckOfPlayerCards = this.addingStatsToDeck(
-        deckOfPlayerCards,
-        obj.key,
-        i,
-        "rb"
-      )
+      deckOfPlayerCards = this.addingStatsToDeck(deckOfPlayerCards, i, "rb")
     })
     CardData.wrCardData.forEach((obj, i) => {
-      deckOfPlayerCards = this.addingStatsToDeck(
-        deckOfPlayerCards,
-        obj.key,
-        i,
-        "wr"
-      )
+      deckOfPlayerCards = this.addingStatsToDeck(deckOfPlayerCards, i, "wr")
     })
 
     this.setState({ deckOfPlayerCards })
