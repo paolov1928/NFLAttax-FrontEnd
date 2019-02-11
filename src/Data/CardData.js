@@ -41,7 +41,7 @@ export const baseCardData = {
 export const qbCardData =
   [{
     key: "totalTDs",
-    stat: [["passing", "touchdowns"],["rushing", "touchdowns"]],
+    stat: [["passing", "touchdowns"],["rushing", "touchdowns"],["receiving", "touchdowns"]],
     syntax: "Total TDs",
     comparison: "up"
   },
@@ -92,7 +92,7 @@ export const qbCardData =
 export const rbCardData =
   [{
     key: "totalTDs",
-    stat: [["receiving", "touchdowns"],["rushing", "touchdowns"]],
+    stat: [["passing", "touchdowns"],["rushing", "touchdowns"],["receiving", "touchdowns"]],
     syntax: "Total TDs",
     comparison: "up"
   },
@@ -135,65 +135,51 @@ export const rbCardData =
   },
 ]
 
-// export const wrCardData =
-//   [
-//     {
-//       key: "totalTDs",
-//       stat: [["receiving", "touchdowns"],["rushing", "touchdowns"]],
-//       syntax: "Total TDs",
-//       comparison: "up"
-//     },
-//     {
-//       key: "airYards",
-//       stat: [["receiving", "air_yards"]],
-//       syntax: "Air Yards",
-//       comparison: "up"
-//     },
-//     {
-//       key: "yardsAfterContact",
-//       stat: [["receiving", "air_yards"]],
-//       syntax: "Yards After Contact",
-//       comparison: "up"
-//     },
-
-
-export const wrCardData = {
-  totalTDs: {
-    syntax: "Total TDs",
-    method: data => data,
-    comparison: "up"
-  },
-  airYards: {
-    syntax: "Air Yards",
-    method: data => data,
-    comparison: "up"
-  },
-  yardsAfterContact: {
-    syntax: "Yards After Contact",
-    method: data => data,
-    comparison: "up"
-  },
-  avgRecYards: {
-    syntax: "Avg Receiving Yards",
-    method: data => data,
-    comparison: "up"
-  },
-  brokenTackles: {
-    syntax: "Broken Tackles",
-    method: data => data,
-    comparison: "up"
-  },
-  droppedPasses: {
-    syntax: "Dropped Receiving Passes",
-    method: data => data,
-    comparison: "down"
-  },
-  longestRecTD: {
-    syntax: "Longest Rec TD",
-    method: data => data,
-    comparison: "up"
-  }
-};
+export const wrCardData =
+  [
+    {
+      key: "totalTDs",
+      stat: [["passing", "touchdowns"],["rushing", "touchdowns"],["receiving", "touchdowns"]],
+      syntax: "Total TDs",
+      comparison: "up"
+    },
+    {
+      key: "airYards",
+      stat: [["receiving", "air_yards"]],
+      syntax: "Air Yards",
+      comparison: "up"
+    },
+    {
+      key: "yardsAfterContact",
+      stat: [["receiving", "yards_after_contact"], ["rushing", "yards_after_contact"]],
+      syntax: "Yards After Contact",
+      comparison: "up"
+    },
+    {
+      key: "avgRecYards",
+      stat: [["receiving", "avg_yards"]],
+      syntax: "Avg Receiving Yards",
+      comparison: "up"
+    },
+    {
+      key: "brokenTackles",
+      stat: [["receiving", "broken_tackles"],["rushing", "broken_tackles"]],
+      syntax: "Broken Tackles",
+      comparison: "up"
+    },
+    {
+      key: "droppedPasses",
+      stat: [["receiving", "dropped_passes"]],
+      syntax: "Dropped Receiving Passes",
+      comparison: "down"
+    },
+    {
+      key: "longestRecTD",
+      stat: [["receiving", "longest_touchdown"]],
+      syntax: "Longest Rec TD",
+      comparison: "up"
+    },
+]
 
 
 

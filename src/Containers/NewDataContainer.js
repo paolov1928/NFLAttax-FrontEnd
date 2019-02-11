@@ -39,7 +39,9 @@ class NewDataContainer extends Component {
     const addData = this.state.additionalDataForTop5Players
     const newKey = CardData.qbCardData[i].syntax
     const statisticsLookup = CardData.statisticsLookup
+    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
     const reducer = (accumulator, currentValue) => accumulator + currentValue
+
 
     newDeck.forEach(p=> {
       if (p.position === 'QB')
@@ -48,9 +50,12 @@ class NewDataContainer extends Component {
             return true
           }
         })[0]
-        let arrayOfStatsLookups = CardData.qbCardData[i].stat.map(l=> statisticsLookup(l[0], l[1], thatQBaddData))
 
-        p["positionSpecificComparables"][newKey] = arrayOfStatsLookups.reduce(reducer)
+        let arrayOfStatsLookups = CardData.qbCardData[i].stat.map(l=> {if (doesTypeOfStatExist(l[0], thatQBaddData)) { return statisticsLookup(l[0], l[1], thatQBaddData)}})
+
+        const correctedArray = arrayOfStatsLookups.map(e=> e === undefined? e=0: e)
+
+        p["positionSpecificComparables"][newKey] = correctedArray.reduce(reducer)
       }
     })
     return newDeck
@@ -83,6 +88,33 @@ class NewDataContainer extends Component {
     return newDeck
   }
 
+  addingWRStatsToDeck = (deck, key, i) => {
+    let newDeck = deck
+    const addData = this.state.additionalDataForTop5Players
+    const newKey = CardData.wrCardData[i].syntax
+    const statisticsLookup = CardData.statisticsLookup
+    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
+    const reducer = (accumulator, currentValue) => accumulator + currentValue
+
+
+    newDeck.forEach(p=> {
+      if (p.position === 'WR')
+      { const thatWRaddData = addData.filter(addPData => {
+          if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
+            return true
+          }
+        })[0]
+
+        let arrayOfStatsLookups = CardData.wrCardData[i].stat.map(l=> {if (doesTypeOfStatExist(l[0], thatWRaddData)) { return statisticsLookup(l[0], l[1], thatWRaddData)}})
+
+        const correctedArray = arrayOfStatsLookups.map(e=> e === undefined? e=0: e)
+
+        p["positionSpecificComparables"][newKey] = correctedArray.reduce(reducer)
+      }
+    })
+    return newDeck
+  }
+
   calculatingTheDeck = (top5Final) => {
     let deckOfPlayerCards = top5Final
     top5Final.forEach(p => {
@@ -104,6 +136,9 @@ class NewDataContainer extends Component {
     })
     CardData.rbCardData.forEach((obj, i) => {
       deckOfPlayerCards = this.addingRBStatsToDeck(deckOfPlayerCards, obj.key, i)
+    })
+    CardData.wrCardData.forEach((obj, i) => {
+      deckOfPlayerCards = this.addingWRStatsToDeck(deckOfPlayerCards, obj.key, i)
     })
 
 
