@@ -1,5 +1,5 @@
 
-// make this an array and then can just iterate through
+// make this an array and then can just iterate through with index like the QB one
 
 
 export const baseCardData = {
@@ -89,43 +89,73 @@ export const qbCardData =
   }]
 ;
 
-export const rbCardData = {
-  totalTDs: {
+export const rbCardData =
+  [{
+    key: "totalTDs",
+    stat: [["receiving", "touchdowns"],["rushing", "touchdowns"]],
     syntax: "Total TDs",
-    method: data => data,
     comparison: "up"
   },
-  fumbles: {
-    syntax: "Fumbles",
-    method: data => data,
-    comparison: "down"
-  },
-  avgRushYards: {
+
+  {
+    key: "avgRushYards",
+    stat: [["rushing", "avg_yards"]],
     syntax: "Avg Rush Yards",
-    method: data => data,
     comparison: "up"
   },
-  avgRecYards: {
+  {
+    key: "avgRecYards",
+    stat: [["receiving", "avg_yards"]],
     syntax: "Avg Receiving Yards",
-    method: data => data,
     comparison: "up"
   },
-  brokenTackles: {
+  {
+    key: "brokenTackles",
+    stat: [["receiving", "broken_tackles"],["rushing", "broken_tackles"]],
     syntax: "Broken Tackles",
-    method: data => data,
     comparison: "up"
   },
-  droppedPasses: {
+  {
+    key: "droppedPasses",
+    stat: [["receiving", "dropped_passes"]],
     syntax: "Dropped Receiving Passes",
-    method: data => data,
     comparison: "down"
   },
-  longestRushTD: {
+  {
+    key: "longestRushTD",
+    stat: [["rushing", "longest_touchdown"]],
     syntax: "Longest Rush TD",
-    method: data => data,
     comparison: "up"
-  }
-};
+  },
+  {
+    key: "fumbles",
+    stat: [["fumbles", "fumbles"]],
+    syntax: "Fumbles",
+    comparison: "down"
+  },
+]
+
+// export const wrCardData =
+//   [
+//     {
+//       key: "totalTDs",
+//       stat: [["receiving", "touchdowns"],["rushing", "touchdowns"]],
+//       syntax: "Total TDs",
+//       comparison: "up"
+//     },
+//     {
+//       key: "airYards",
+//       stat: [["receiving", "air_yards"]],
+//       syntax: "Air Yards",
+//       comparison: "up"
+//     },
+//     {
+//       key: "yardsAfterContact",
+//       stat: [["receiving", "air_yards"]],
+//       syntax: "Yards After Contact",
+//       comparison: "up"
+//     },
+
 
 export const wrCardData = {
   totalTDs: {
@@ -166,6 +196,12 @@ export const wrCardData = {
 };
 
 
+
+
 export const statisticsLookup = (typeOfStat, actualStat, props) =>
   props.seasons.find(s => s.year === 2018 && s.type === "REG").teams[0]
     .statistics[typeOfStat][actualStat]
+
+export const doesTypeOfStatExist = (typeOfStat, props) =>
+  props.seasons.find(s => s.year === 2018 && s.type === "REG").teams[0]
+    .statistics[typeOfStat]? true : false

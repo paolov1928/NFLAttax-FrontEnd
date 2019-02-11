@@ -39,6 +39,7 @@ class NewDataContainer extends Component {
     const addData = this.state.additionalDataForTop5Players
     const newKey = CardData.qbCardData[i].syntax
     const statisticsLookup = CardData.statisticsLookup
+    const reducer = (accumulator, currentValue) => accumulator + currentValue
 
     newDeck.forEach(p=> {
       if (p.position === 'QB')
@@ -48,8 +49,35 @@ class NewDataContainer extends Component {
           }
         })[0]
         let arrayOfStatsLookups = CardData.qbCardData[i].stat.map(l=> statisticsLookup(l[0], l[1], thatQBaddData))
-        const reducer = (accumulator, currentValue) => accumulator + currentValue
+
         p["positionSpecificComparables"][newKey] = arrayOfStatsLookups.reduce(reducer)
+      }
+    })
+    return newDeck
+  }
+
+  addingRBStatsToDeck = (deck, key, i) => {
+    let newDeck = deck
+    const addData = this.state.additionalDataForTop5Players
+    const newKey = CardData.rbCardData[i].syntax
+    const statisticsLookup = CardData.statisticsLookup
+    const doesTypeOfStatExist = CardData.doesTypeOfStatExist
+    const reducer = (accumulator, currentValue) => accumulator + currentValue
+
+
+    newDeck.forEach(p=> {
+      if (p.position === 'RB')
+      { const thatRBaddData = addData.filter(addPData => {
+          if (addPData.references.find(o => o.origin === "gsis" && o.id === p.gsisPlayerId)) {
+            return true
+          }
+        })[0]
+
+        let arrayOfStatsLookups = CardData.rbCardData[i].stat.map(l=> {if (doesTypeOfStatExist(l[0], thatRBaddData)) { return statisticsLookup(l[0], l[1], thatRBaddData)}})
+
+        const correctedArray = arrayOfStatsLookups.map(e=> e === undefined? e=0: e)
+
+        p["positionSpecificComparables"][newKey] = correctedArray.reduce(reducer)
       }
     })
     return newDeck
@@ -74,6 +102,11 @@ class NewDataContainer extends Component {
     CardData.qbCardData.forEach((obj, i) => {
       deckOfPlayerCards = this.addingQBStatsToDeck(deckOfPlayerCards, obj.key, i)
     })
+    CardData.rbCardData.forEach((obj, i) => {
+      deckOfPlayerCards = this.addingRBStatsToDeck(deckOfPlayerCards, obj.key, i)
+    })
+
+
     this.setState({deckOfPlayerCards})
   }
 
