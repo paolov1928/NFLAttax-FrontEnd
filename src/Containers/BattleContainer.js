@@ -22,13 +22,22 @@ class BattleContainer extends Component {
     })
   }
 
+  winOrLoss = () =>
+    this.props.currentGame.p1roundCount > 1
+      ? this.props.history.push("/Win")
+      : this.props.history.push("/Loss")
+
   toggleFade = () => {
     let newFade = !this.state.toggle
     this.setState({ toggle: newFade })
   }
   handleClick = () => {
-    let newRound = this.state.round + 1
-    this.setState({ round: newRound }, this.toggleFade())
+    if (this.state.round < 2) {
+      let newRound = this.state.round + 1
+      this.setState({ round: newRound }, this.toggleFade())
+    } else {
+      this.winOrLoss()
+    }
   }
 
   battleScreen = usefulObjects.battleScreens.find(
@@ -63,10 +72,9 @@ class BattleContainer extends Component {
             subheader={this.state.battleScreens[this.state.round].subheader}
           />
           <Button
-            size="massive"
+            size="huge"
             className={!this.state.toggle ? "invisible" : "visible"}
             color="red"
-            attached="bottom"
             onClick={() => this.handleClick()}
           >
             {this.renderText()}

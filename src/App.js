@@ -103,9 +103,6 @@ class App extends Component {
     if (actualResult === true) {
       game.playerWonRound()
     }
-
-    // setTimeout(() => game.moveToNextRound(), 2000)
-    // Need to get this transitioning to next page!!
   }
 
   render() {

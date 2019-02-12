@@ -10,6 +10,14 @@ class NFLPlayerCard extends Component {
     return <React.Fragment />
   }
 
+  handleClassName = () => {
+    if (this.props.playerOpponent === "Opponent" && !this.props.toggle) {
+      return "Opponent"
+    } else if (this.props.toggle) {
+      return "afterClickPointerOff"
+    }
+  }
+
   render() {
     return (
       <Card
@@ -18,11 +26,7 @@ class NFLPlayerCard extends Component {
             ? this.props.selectPlayer(this.props)
             : "no clicks"
         }
-        className={
-          this.props.playerOpponent === "Opponent" && !this.props.toggle
-            ? "Opponent"
-            : "Player"
-        }
+        className={this.handleClassName()}
       >
         <Image
           src={
