@@ -5,7 +5,7 @@ import * as CardData from "../Data/CardData"
 import { toast } from "react-semantic-toasts"
 import NewPlayerCard from "../Components/NewPlayerCard"
 import RosterSegment from "../Components/RosterSegment"
-import { Card, Button } from "semantic-ui-react"
+import { Card, Button, Header, Segment, Divider } from "semantic-ui-react"
 
 class NewDataContainer extends Component {
   state = {
@@ -185,16 +185,13 @@ class NewDataContainer extends Component {
     }
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <h1>Player Roster - choose 1 QB, 1 RB and 1 WR</h1>
-        <RosterSegment
-          selectedQB={this.state.selectedQB}
-          selectedWR={this.state.selectedWR}
-          selectedRB={this.state.selectedRB}
-          createGame={this.props.createGame}
-        />
+  ifhandleToggle = () => {
+    if (
+      this.state.selectedQB &&
+      this.state.selectedRB &&
+      this.state.selectedWR
+    ) {
+      return (
         <Button
           size="massive"
           color="red"
@@ -206,11 +203,35 @@ class NewDataContainer extends Component {
         >
           🏈 Let's Play 🏈
         </Button>
-        <Card.Group itemsPerRow={5}>
-          {this.filterIfPickHasBeenMade().map(p => (
-            <NewPlayerCard {...p} key={p.id} selectPlayer={this.selectPlayer} />
-          ))}
-        </Card.Group>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Header as="h1" textAlign="center">
+          Player Roster - choose one QB, one RB and one WR
+        </Header>
+        <RosterSegment
+          selectedQB={this.state.selectedQB}
+          selectedWR={this.state.selectedWR}
+          selectedRB={this.state.selectedRB}
+          createGame={this.props.createGame}
+        />
+        {this.ifhandleToggle()}
+        <Divider hidden />
+        <Segment>
+          <Card.Group itemsPerRow={5}>
+            {this.filterIfPickHasBeenMade().map(p => (
+              <NewPlayerCard
+                {...p}
+                key={p.id}
+                selectPlayer={this.selectPlayer}
+              />
+            ))}
+          </Card.Group>
+        </Segment>
       </React.Fragment>
     )
   }

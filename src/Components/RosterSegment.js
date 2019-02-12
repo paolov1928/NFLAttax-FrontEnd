@@ -12,6 +12,7 @@ const holdingImage = () => {
         ".svg"
     : placeholderUrl
 }
+
 const ifStatement = (props, position) => {
   return props["selected" + position] ? (
     <React.Fragment>
@@ -33,7 +34,7 @@ const ifStatement = (props, position) => {
   )
 }
 
-const SegmentExamplePlaceholderGrid = props => (
+const SelectedTeamAndPlayersGrid = props => (
   <Segment placeholder attached>
     <Grid columns={4} textAlign="center" divided>
       <Grid.Row verticalAlign="middle">
@@ -58,4 +59,4 @@ const SegmentExamplePlaceholderGrid = props => (
   </Segment>
 )
 
-export default SegmentExamplePlaceholderGrid
+export default SelectedTeamAndPlayersGrid
