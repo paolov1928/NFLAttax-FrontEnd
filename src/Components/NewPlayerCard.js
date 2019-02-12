@@ -5,9 +5,22 @@ import Statistic from "./Statistic"
 import { withRouter } from "react-router-dom"
 
 class NFLPlayerCard extends Component {
-  renderBaseStats() {
-    // if (this.props.location.pathname !== "/Teams") {
-    return <React.Fragment />
+  iterativeRender = typeOfStat => {
+    return this.props[typeOfStat].map((stat, i) => (
+      <Statistic
+        {...stat}
+        key={i}
+        compareStatistic={this.props.compareStatistic}
+        toggleFade={this.props.toggleFade}
+        currentGame={this.props.currentGame}
+      />
+    ))
+  }
+
+  renderStats = typeOfStat => {
+    if (this.props.location.pathname !== "/NewData") {
+      return this.iterativeRender(typeOfStat)
+    }
   }
 
   handleClassName = () => {
@@ -47,24 +60,9 @@ class NFLPlayerCard extends Component {
             {usefulObject.aliasToFullName[this.props.teamAbbr]}
           </Card.Description>
         </Card.Content>
-        {this.props.baseComparables.map((stat, i) => (
-          <Statistic
-            {...stat}
-            key={i}
-            compareStatistic={this.props.compareStatistic}
-            toggleFade={this.props.toggleFade}
-            currentGame={this.props.currentGame}
-          />
-        ))}
-        {this.props.positionSpecificComparables.map((stat, i) => (
-          <Statistic
-            {...stat}
-            key={i}
-            compareStatistic={this.props.compareStatistic}
-            toggleFade={this.props.toggleFade}
-            currentGame={this.props.currentGame}
-          />
-        ))}
+
+        {this.renderStats("baseComparables")}
+        {this.renderStats("positionSpecificComparables")}
       </Card>
     )
   }

@@ -5,10 +5,6 @@ import PickTeamOrOpponent from "./Components/PickTeamOrOpponent"
 import Welcome from "./Components/Welcome"
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 // import 'semantic-ui-css/semantic.min.css'
-import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer"
-import QBBattleContainer from "./Containers/QBBattleContainer"
-import WRBattleContainer from "./Containers/WRBattleContainer"
-import RBBattleContainer from "./Containers/RBBattleContainer"
 import BattleContainer from "./Containers/BattleContainer"
 import NewDataContainer from "./Containers/NewDataContainer"
 import Game from "./Game-Logic/1game"
@@ -116,14 +112,10 @@ class App extends Component {
           <Link to="/">Dashboard</Link>..
           <Link to="/Pick">Pick your team!</Link>..
           <Link to="/Opponent">Pick your opponent!</Link>..
-          <Link to="/Teams">Select your Players!</Link>..
-          <Link to="/QBBattle">Battle your QBs!</Link>..
-          <Link to="/WRBattle">Battle your WRs!</Link>..
-          <Link to="/RBBattle">Battle your RBs!</Link>..
-          <Link to="/Win">Winners</Link>..
-          <Link to="/Loss">Losers</Link>..
           <Link to="/NewData">NewData</Link>..
           <Link to="/Battle">Battle players!</Link>..
+          <Link to="/Win">Winners</Link>..
+          <Link to="/Loss">Losers</Link>..
           <button onClick={this.signOut}>SignOut</button>
           <hr />
           <Switch>
@@ -159,48 +151,7 @@ class App extends Component {
                 <EndPage {...routerProps} currentGame={currentGame} />
               )}
             />
-            <Route
-              path="/QBBattle"
-              component={routerProps => (
-                <QBBattleContainer
-                  {...routerProps}
-                  currentUser={currentUser}
-                  currentGame={currentGame}
-                  compareStatistic={this.compareStatistic}
-                />
-              )}
-            />
-            <Route
-              path="/WRBattle"
-              component={routerProps => (
-                <WRBattleContainer
-                  {...routerProps}
-                  currentUser={currentUser}
-                  currentGame={currentGame}
-                  compareStatistic={this.compareStatistic}
-                />
-              )}
-            />
-            <Route
-              path="/RBBattle"
-              component={routerProps => (
-                <RBBattleContainer
-                  {...routerProps}
-                  currentUser={currentUser}
-                  currentGame={currentGame}
-                  compareStatistic={this.compareStatistic}
-                />
-              )}
-            />
-            <Route
-              path="/Teams"
-              component={routerProps => (
-                <PlayerSelectionContainer
-                  {...routerProps}
-                  createGame={this.createGame}
-                />
-              )}
-            />
+
             <Route
               path="/Login"
               component={routerProps => (
