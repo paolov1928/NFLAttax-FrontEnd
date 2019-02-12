@@ -4,6 +4,7 @@ class Game {
     this.table = []
     this.currentRound = 0
     this.p1roundCount = 0
+    this.deck = []
   }
 
   moveToNextRound = () => {
@@ -19,6 +20,9 @@ class Game {
   }
   addPlayer = newPlayer => {
     this.players.push(newPlayer)
+  }
+  addDeck = newDeck => {
+    this.deck = newDeck
   }
 }
 

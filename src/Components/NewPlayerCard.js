@@ -44,10 +44,22 @@ class NFLPlayerCard extends Component {
           </Card.Description>
         </Card.Content>
         {this.props.baseComparables.map((stat, i) => (
-          <Statistic {...stat} key={i} />
+          <Statistic
+            {...stat}
+            key={i}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
         ))}
         {this.props.positionSpecificComparables.map((stat, i) => (
-          <Statistic {...stat} key={i} />
+          <Statistic
+            {...stat}
+            key={i}
+            compareStatistic={this.props.compareStatistic}
+            toggleFade={this.props.toggleFade}
+            currentGame={this.props.currentGame}
+          />
         ))}
       </Card>
     )

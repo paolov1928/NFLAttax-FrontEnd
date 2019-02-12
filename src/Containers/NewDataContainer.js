@@ -201,7 +201,7 @@ class NewDataContainer extends Component {
           attached="bottom"
           onClick={() => {
             this.props.createGame(this.state)
-            // this.props.history.push("/QBBattle")
+            this.props.history.push("/Battle")
           }}
         >
           🏈 Let's Play 🏈
@@ -217,9 +217,3 @@ class NewDataContainer extends Component {
 }
 
 export default NewDataContainer
-
-// deck[0]['weight'] = addData.filter(addPData => {
-//       if (addPData.references.find(o => o.origin === "gsis" && o.id === deck[0].gsisPlayerId)) {
-//         return true
-//       }
-//     })[0].weight

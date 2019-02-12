@@ -3,13 +3,7 @@ import Login from "./Components/Login"
 import EndPage from "./Components/EndPage"
 import PickTeamOrOpponent from "./Components/PickTeamOrOpponent"
 import Welcome from "./Components/Welcome"
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from "react-router-dom"
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 // import 'semantic-ui-css/semantic.min.css'
 import PlayerSelectionContainer from "./Containers/PlayerSelectionContainer"
 import QBBattleContainer from "./Containers/QBBattleContainer"
@@ -65,6 +59,7 @@ class App extends Component {
       player.rb = playersSelected.selectedRB
       game.addPlayer(computer)
       game.addPlayer(player)
+      game.addDeck(playersSelected.deckOfPlayerCards)
       game.moveToNextRound()
       this.setState({ currentGame: game })
     }
@@ -108,6 +103,9 @@ class App extends Component {
     if (actualResult === true) {
       game.playerWonRound()
     }
+
+    // setTimeout(() => game.moveToNextRound(), 2000)
+    // Need to get this transitioning to next page!!
   }
 
   render() {

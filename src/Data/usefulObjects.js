@@ -31,13 +31,13 @@ export const aliasToFullName = {
   TB: "Tampa Bay Buccaneers",
   TEN: "Tennessee Titans",
   WAS: "Washington Redskins"
-};
+}
 
 export const positionAliasToFull = {
   QB: "Quarterback",
   WR: "Wide Receiver",
   RB: "Running Back"
-};
+}
 
 export const teamsArray = [
   "SF",
@@ -72,4 +72,27 @@ export const teamsArray = [
   "NYG",
   "DEN",
   "TEN"
-];
+]
+
+export const battleScreens = [
+  {
+    roundNumber: 1,
+    position: "qb",
+    content: "Round 1: Battle of the Quarterbacks",
+    subheader:
+      "Sure, luck means a lot in football. Not having a good quarterback is bad luck. - Don Shula"
+  },
+  {
+    roundNumber: 2,
+    position: "wr",
+    content: "Round 2: Battle of the Wide Receivers",
+    subheader: "In ninth grade, I played wide receiver. - Quavo "
+  },
+  {
+    roundNumber: 3,
+    position: "rb",
+    content: "Round 3: Battle of the Running Backs",
+    subheader:
+      "As a running back, it takes five offensive linemen, a tight end, a fullback and possibly two wide receivers, in order to make my job successful. - Marshawn Lynch"
+  }
+]

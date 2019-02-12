@@ -3,12 +3,15 @@ import { Card, Segment, Divider, Header } from "semantic-ui-react"
 import NewPlayerCard from "../Components/NewPlayerCard"
 import "./battle.css"
 import { toast } from "react-semantic-toasts"
+import * as usefulObjects from "../Data/usefulObjects"
 
 class BattleContainer extends Component {
   state = {
-    toggle: false
+    toggle: false,
+    battleScreens: usefulObjects.battleScreens,
+    round: 0
   }
-
+  // need to put in state
   componentDidMount() {
     toast({
       title: "Click a statistic that will beat the opponent's statistic!",
@@ -23,9 +26,13 @@ class BattleContainer extends Component {
     this.setState({ toggle: true })
   }
 
+  battleScreen = usefulObjects.battleScreens.find(
+    s => s.roundNumber === this.props.currentGame.currentRound
+  )
+
   Table = [
-    this.props.currentGame.players[1].qb,
-    this.props.currentGame.players[0].qb
+    this.props.currentGame.players[1][this.battleScreen.position],
+    this.props.currentGame.players[0][this.battleScreen.position]
   ]
   // Make this a function that is dependent on round
 
@@ -37,8 +44,8 @@ class BattleContainer extends Component {
             as="h1"
             block
             textAlign="center"
-            content="Round 1: Battle of the Quarterbacks"
-            subheader="Sure, luck means a lot in football. Not having a good quarterback is bad luck. - Don Shula"
+            content={this.battleScreen.content}
+            subheader={this.battleScreen.subheader}
           />
           <Card.Group itemsPerRow={2}>
             {this.Table.map((p, i) => (
