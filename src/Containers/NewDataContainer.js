@@ -192,17 +192,20 @@ class NewDataContainer extends Component {
       this.state.selectedWR
     ) {
       return (
-        <Button
-          size="massive"
-          color="red"
-          attached="bottom"
-          onClick={() => {
-            this.props.createGame(this.state)
-            this.props.history.push("/Battle")
-          }}
-        >
-          🏈 Let's Play 🏈
-        </Button>
+        <React.Fragment>
+          <Divider hidden />
+          <Button
+            size="massive"
+            color="red"
+            attached="bottom"
+            onClick={() => {
+              this.props.createGame(this.state)
+              this.props.history.push("/Battle")
+            }}
+          >
+            🏈 Let's Play 🏈
+          </Button>
+        </React.Fragment>
       )
     }
   }

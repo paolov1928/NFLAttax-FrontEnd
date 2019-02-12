@@ -3,6 +3,7 @@ import Login from "./Components/Login"
 import EndPage from "./Components/EndPage"
 import PickTeamOrOpponent from "./Components/PickTeamOrOpponent"
 import Welcome from "./Components/Welcome"
+import Menu from "./Components/Menu"
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 // import 'semantic-ui-css/semantic.min.css'
 import BattleContainer from "./Containers/BattleContainer"
@@ -108,16 +109,8 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
-          <Link to="/Login">Login</Link>..
-          <Link to="/">Dashboard</Link>..
-          <Link to="/Pick">Pick your team!</Link>..
-          <Link to="/Opponent">Pick your opponent!</Link>..
-          <Link to="/NewData">NewData</Link>..
-          <Link to="/Battle">Battle players!</Link>..
-          <Link to="/Win">Winners</Link>..
-          <Link to="/Loss">Losers</Link>..
-          <button onClick={this.signOut}>SignOut</button>
-          <hr />
+          <Menu signOut={this.signOut} />
+
           <Switch>
             <Route
               path="/Battle"

@@ -11,7 +11,7 @@ class BattleContainer extends Component {
     battleScreens: usefulObjects.battleScreens,
     round: 0
   }
-  // need to put in state
+
   componentDidMount() {
     toast({
       title: "Click a statistic that will beat the opponent's statistic!",
@@ -55,7 +55,7 @@ class BattleContainer extends Component {
 
   renderText = () => {
     return this.state.round < 2
-      ? `🏈 Move to round ${this.state.round + 2} 🏈`
+      ? `🏈 Click to move to round ${this.state.round + 2} 🏈`
       : "Lets find out if you won or lost!?!"
   }
 
@@ -79,6 +79,7 @@ class BattleContainer extends Component {
           >
             {this.renderText()}
           </Button>
+          <Divider hidden />
           <Card.Group itemsPerRow={2}>
             {this.renderTable().map((p, i) => (
               <NewPlayerCard
