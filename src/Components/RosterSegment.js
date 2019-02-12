@@ -5,7 +5,6 @@ const placeholderUrl =
   "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/PLACEHOLDER.png"
 
 const holdingImage = () => {
-  // if they have made a pick then show their team.. should always happen but dont want it to break.
   return localStorage.getItem("Pick")
     ? "https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/" +
         localStorage.getItem("Pick") +

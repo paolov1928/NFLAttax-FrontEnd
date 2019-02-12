@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import NFLLogoCard from "../Components/NFLLogoCard"
 import { Card } from "semantic-ui-react"
 import * as usefulObjects from "../Data/usefulObjects"
+import InfiniteScroll from "react-infinite-scroll-component"
 
 class LogoContainer extends Component {
   state = {
@@ -23,19 +24,36 @@ class LogoContainer extends Component {
     this.setState({ currentPick: team })
   }
 
+  fetchMoreData = () => {
+    setTimeout(() => {
+      this.setState({
+        teams: this.state.teams.concat(
+          usefulObjects.teamsArray.sort(() => Math.random() - 0.5)
+        )
+      })
+    }, 1000)
+  }
+
   render() {
     return (
       <React.Fragment>
-        <Card.Group itemsPerRow={4}>
-          {this.state.teams.map((p, i) => (
-            <NFLLogoCard
-              text={p}
-              key={i}
-              where={this.props.where}
-              toggleCurrentPick={this.toggleCurrentPick}
-            />
-          ))}
-        </Card.Group>
+        <InfiniteScroll
+          dataLength={this.state.teams.length}
+          next={this.fetchMoreData}
+          hasMore={true}
+          loader={<h1>The NFL has 32 teams.... so here they are (again)</h1>}
+        >
+          <Card.Group itemsPerRow={4}>
+            {this.state.teams.map((p, i) => (
+              <NFLLogoCard
+                text={p}
+                key={i}
+                where={this.props.where}
+                toggleCurrentPick={this.toggleCurrentPick}
+              />
+            ))}
+          </Card.Group>
+        </InfiniteScroll>
       </React.Fragment>
     )
   }
