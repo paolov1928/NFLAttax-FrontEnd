@@ -34,3 +34,6 @@
   display: flex !important;
   align-items: center !important;
 }
+.fixFormWidth {
+  max-width: 100rem !important;
+}

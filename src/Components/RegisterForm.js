@@ -2,6 +2,7 @@ import React from "react"
 import { Form } from "semantic-ui-react"
 import API from "../API"
 import { withRouter } from "react-router-dom"
+import "../Containers/battle.css"
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class RegisterForm extends React.Component {
             name="username"
             icon="user"
             iconPosition="left"
+            className="fixFormWidth"
           />
 
           <Form.Input
@@ -69,6 +71,7 @@ class RegisterForm extends React.Component {
             type="password"
             icon="lock"
             iconPosition="left"
+            className="fixFormWidth"
           />
 
           <Form.Input
@@ -80,6 +83,7 @@ class RegisterForm extends React.Component {
             type="password"
             icon="lock"
             iconPosition="left"
+            className="fixFormWidth"
           />
         </Form.Group>
         <Form.Button>Register</Form.Button>

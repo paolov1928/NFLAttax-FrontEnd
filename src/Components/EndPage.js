@@ -86,7 +86,7 @@ class EndPage extends Component {
             ]}
         </h3>
         <Image src={this.state.randomGIF} size="huge" centered />
-        <p>Sports quote of the day:</p>
+        <p>NFL quote of the day:</p>
         <h3>
           <i> "{this.state.quote}" </i>
         </h3>

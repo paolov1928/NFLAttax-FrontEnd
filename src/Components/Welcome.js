@@ -51,7 +51,7 @@ class Welcome extends Component {
             onClick={() => this.handleClick()}
             attached="top"
           >
-            Click here to enter the mêlée
+            🏈 Click here to enter the mêlée 🏈
           </Button>
           <Header as="h3" textAlign="left" content={"Your latest GameFeed!!"} />
           <GamesFeed userInfo={this.state.userInfo} />
