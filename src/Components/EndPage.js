@@ -28,7 +28,8 @@ class EndPage extends Component {
 
   findTheUserID = () => {
     API.findUsers().then(d => {
-      let thisUseriD = d.find(b => b.username === this.props.currentUser).id
+      let thisUseriD = d.find(b => b.username === localStorage.getItem("user"))
+        .id
       this.setState(
         {
           userId: thisUseriD
@@ -91,7 +92,7 @@ class EndPage extends Component {
         </h3>
         <h3> {this.state.author}</h3>
         <Link to="/">
-          <Button color="violet">
+          <Button color="violet" fluid attached="bottom">
             Rinse and Repeat?!
             <br />
             <br />

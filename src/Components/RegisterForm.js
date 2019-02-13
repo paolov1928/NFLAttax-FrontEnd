@@ -1,5 +1,5 @@
 import React from "react"
-import { Form, Button } from "semantic-ui-react"
+import { Form } from "semantic-ui-react"
 import API from "../API"
 import { withRouter } from "react-router-dom"
 

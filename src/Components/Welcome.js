@@ -3,9 +3,27 @@ import { Button, Image, Container, Header } from "semantic-ui-react"
 import { toast } from "react-semantic-toasts"
 import Slogan from "../Images/11719864_1179x1572.png"
 import GamesFeed from "./GamesFeed"
+import API from "../API"
 
 class Welcome extends Component {
-  state = {}
+  state = {
+    userInfo: null
+  }
+
+  componentDidMount() {
+    this.findTheUsers()
+  }
+
+  findTheUsers = () => {
+    API.findUsers().then(d => {
+      let thisUsersInfo = d.find(
+        b => b.username === localStorage.getItem("user")
+      )
+      this.setState({
+        userInfo: thisUsersInfo
+      })
+    })
+  }
 
   handleClick = () => {
     toast({
@@ -24,7 +42,7 @@ class Welcome extends Component {
           <Header
             as="h1"
             textAlign="left"
-            content={"Prepare yourself " + this.props.currentUser + "!!"}
+            content={"Prepare yourself " + localStorage.getItem("user") + "!!"}
           />
           <Image src={Slogan} size="medium" centered />
           <Button
@@ -35,8 +53,8 @@ class Welcome extends Component {
           >
             Click here to enter the mêlée
           </Button>
-          <Header as="h3" textAlign="left" content={"The latest GameFeed!!"} />
-          <GamesFeed />
+          <Header as="h3" textAlign="left" content={"Your latest GameFeed!!"} />
+          <GamesFeed userInfo={this.state.userInfo} />
         </Container>
       </React.Fragment>
     )

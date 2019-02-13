@@ -24,6 +24,7 @@ class App extends Component {
       currentUser: user
     })
     localStorage.setItem("token", token)
+    localStorage.setItem("user", user)
   }
 
   signOut = () => {
@@ -31,6 +32,7 @@ class App extends Component {
       currentUser: false
     })
     localStorage.removeItem("token")
+    localStorage.removeItem("user")
     localStorage.removeItem("Pick")
     localStorage.removeItem("Opponent")
   }
@@ -184,7 +186,7 @@ class App extends Component {
               )}
             />
           </Switch>
-          <SemanticToastContainer />
+          <SemanticToastContainer position="top-center" />
         </React.Fragment>
       </Router>
     )

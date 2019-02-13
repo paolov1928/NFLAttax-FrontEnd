@@ -58,46 +58,51 @@ class BattleContainer extends Component {
   }
 
   render() {
-    return (
-      <React.Fragment>
-        <Segment placeholder>
-          <Header
-            className={"visible"}
-            as="h1"
-            block
-            textAlign="center"
-            content={this.state.battleScreens[this.state.round].content}
-            subheader={this.state.battleScreens[this.state.round].subheader}
-          />
-          <Button
-            size="huge"
-            fluid
-            className={!this.state.toggle ? "invisible" : "visible"}
-            color="black"
-            onClick={() => this.handleClick()}
-          >
-            {this.renderText()}
-          </Button>
-          <Divider hidden />
-          <Card.Group itemsPerRow={2}>
-            {this.renderTable().map((p, i) => (
-              <NewPlayerCard
-                {...p}
-                key={p.id}
-                compareStatistic={this.props.compareStatistic}
-                playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
-                toggle={this.state.toggle}
-                toggleFade={this.toggleFade}
-              />
-            ))}
-          </Card.Group>
+    if (!this.props.currentGame) {
+      this.props.history.push("/")
+      return <div>hello</div>
+    } else {
+      return (
+        <React.Fragment>
+          <Segment placeholder>
+            <Header
+              className={"maxZIndexheader"}
+              as="h1"
+              block
+              textAlign="center"
+              content={this.state.battleScreens[this.state.round].content}
+              subheader={this.state.battleScreens[this.state.round].subheader}
+            />
+            <Button
+              size="huge"
+              fluid
+              className={!this.state.toggle ? "invisible" : "visible"}
+              color="black"
+              onClick={() => this.handleClick()}
+            >
+              {this.renderText()}
+            </Button>
+            <Divider hidden />
+            <Card.Group itemsPerRow={2}>
+              {this.renderTable().map((p, i) => (
+                <NewPlayerCard
+                  {...p}
+                  key={p.id}
+                  compareStatistic={this.props.compareStatistic}
+                  playerOpponent={i % 2 === 0 ? "Player" : "Opponent"}
+                  toggle={this.state.toggle}
+                  toggleFade={this.toggleFade}
+                />
+              ))}
+            </Card.Group>
 
-          <Divider vertical>
-            <strong>Vs</strong>
-          </Divider>
-        </Segment>
-      </React.Fragment>
-    )
+            <Divider vertical>
+              <strong>Vs</strong>
+            </Divider>
+          </Segment>
+        </React.Fragment>
+      )
+    }
   }
 }
 

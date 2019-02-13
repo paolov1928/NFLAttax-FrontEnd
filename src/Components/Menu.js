@@ -3,7 +3,7 @@ import { Menu, Button } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 
 export default class MenuExampleInverted extends Component {
-  state = { activeItem: "home" }
+  state = { activeItem: "login" }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -11,33 +11,15 @@ export default class MenuExampleInverted extends Component {
     const { activeItem } = this.state
 
     return (
-      <Menu inverted>
+      <Menu inverted borderless>
         <Link to="/">
           <Menu.Item>
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/128_Usona_Futbalo_.svg" />
           </Menu.Item>
         </Link>
-        <Link to="/Login">
-          <Menu.Item
-            name="login"
-            active={activeItem === "home"}
-            onClick={this.handleItemClick}
-          />
-        </Link>
-        <Link to="/">
-          <Menu.Item
-            name="dashboard"
-            active={activeItem === "messages"}
-            onClick={this.handleItemClick}
-          />
-        </Link>
-        <Link to="/NewData">
-          <Menu.Item
-            name="team select"
-            active={activeItem === "friends"}
-            onClick={this.handleItemClick}
-          />
-        </Link>
+
+        <Menu.Item name="Ballers Fantasy Football Top Trumps by Paolo" />
+
         <Menu.Menu position="right">
           <Link to="/Login">
             <Menu.Item>
