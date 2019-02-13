@@ -135,13 +135,21 @@ class App extends Component {
             <Route
               path="/Loss"
               component={routerProps => (
-                <EndPage {...routerProps} currentGame={currentGame} />
+                <EndPage
+                  {...routerProps}
+                  currentGame={currentGame}
+                  currentUser={currentUser}
+                />
               )}
             />
             <Route
               path="/Win"
               component={routerProps => (
-                <EndPage {...routerProps} currentGame={currentGame} />
+                <EndPage
+                  {...routerProps}
+                  currentGame={currentGame}
+                  currentUser={currentUser}
+                />
               )}
             />
 

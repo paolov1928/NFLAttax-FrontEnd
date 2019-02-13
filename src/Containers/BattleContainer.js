@@ -40,10 +40,6 @@ class BattleContainer extends Component {
     }
   }
 
-  battleScreen = usefulObjects.battleScreens.find(
-    s => s.roundNumber === this.props.currentGame.currentRound
-  )
-
   renderTable = () => {
     const positionRound = this.state.battleScreens[this.state.round].position
     return [
@@ -55,8 +51,10 @@ class BattleContainer extends Component {
 
   renderText = () => {
     return this.state.round < 2
-      ? `🏈 Click to move to round ${this.state.round + 2} 🏈`
-      : "Lets find out if you won or lost!?!"
+      ? `🏈 Move on to the ${this.state.battleScreens[
+          this.state.round + 1
+        ].position.toUpperCase()} round  🏈`
+      : "Will it be the 🍾 or the 𝐋 ?!"
   }
 
   render() {
@@ -73,8 +71,9 @@ class BattleContainer extends Component {
           />
           <Button
             size="huge"
+            fluid
             className={!this.state.toggle ? "invisible" : "visible"}
-            color="red"
+            color="black"
             onClick={() => this.handleClick()}
           >
             {this.renderText()}

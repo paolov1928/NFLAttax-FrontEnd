@@ -6,6 +6,7 @@ import { toast } from "react-semantic-toasts"
 import NewPlayerCard from "../Components/NewPlayerCard"
 import RosterSegment from "../Components/RosterSegment"
 import { Card, Button, Header, Segment, Divider } from "semantic-ui-react"
+import API from "../API";
 
 class NewDataContainer extends Component {
   state = {
@@ -18,13 +19,21 @@ class NewDataContainer extends Component {
   }
 
   componentDidMount() {
-    this.gettingTopPlayersFromFantasyData()
-    toast({
-      title: "Click three players to add to your lineup!",
-      icon: "info",
-      time: 10000,
-      type: "warning"
-    })
+    API.validate().then(r => {
+      if (r.error) {
+        this.props.history.push("./Login");
+      } else {
+        this.gettingTopPlayersFromFantasyData()
+        toast({
+          title: "Click three players to add to your lineup!",
+          icon: "info",
+          time: 10000,
+          type: "warning"
+        })
+
+      }
+    });
+
   }
 
   addKeyToTheDeck = (deck, i) => {
@@ -196,7 +205,7 @@ class NewDataContainer extends Component {
           <Divider hidden />
           <Button
             size="massive"
-            color="red"
+            color="black"
             attached="bottom"
             onClick={() => {
               this.props.createGame(this.state)

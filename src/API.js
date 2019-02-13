@@ -54,6 +54,25 @@ class API {
       r.json()
     )
   }
+
+  static findUsers = () => {
+    return fetch("http://localhost:3000/users").then(r => r.json())
+  }
+
+  static postResult = (iD, yourTeam, opponentTeam, won) => {
+    return fetch("http://localhost:3000/games", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: iD,
+        yourTeam: yourTeam,
+        opponentTeam: opponentTeam,
+        won: won
+      })
+    }).then(resp => resp.json())
+  }
 }
 
 API.init()

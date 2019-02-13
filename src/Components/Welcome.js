@@ -1,12 +1,15 @@
 import React, { Component } from "react"
-import { Button, Image, Container } from "semantic-ui-react"
+import { Button, Image, Container, Header } from "semantic-ui-react"
 import { toast } from "react-semantic-toasts"
-import mainLogo from "../Images/11719864_1179x1572.png"
+import Slogan from "../Images/11719864_1179x1572.png"
+import GamesFeed from "./GamesFeed"
 
 class Welcome extends Component {
+  state = {}
+
   handleClick = () => {
     toast({
-      title: "New User entered the game",
+      title: this.props.currentUser + " entered the game",
       icon: "football ball",
       time: 5000
     })
@@ -18,16 +21,22 @@ class Welcome extends Component {
     return (
       <React.Fragment>
         <Container>
-          <Image src={mainLogo} size="medium" centered />
+          <Header
+            as="h1"
+            textAlign="left"
+            content={"Prepare yourself " + this.props.currentUser + "!!"}
+          />
+          <Image src={Slogan} size="medium" centered />
           <Button
             size="huge"
-            inverted
-            color="green"
+            color="black"
             onClick={() => this.handleClick()}
             attached="top"
           >
-            Enter the mêlée
+            Click here to enter the mêlée
           </Button>
+          <Header as="h3" textAlign="left" content={"The latest GameFeed!!"} />
+          <GamesFeed />
         </Container>
       </React.Fragment>
     )
