@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { Container, Image, Button, Icon } from "semantic-ui-react"
 import API from "../API"
 import * as usefulObject from "../Data/usefulObjects"
+import * as NFLquotes from "../Data/NFLquotes"
 import { Link } from "react-router-dom"
 
 class EndPage extends Component {
@@ -14,15 +15,13 @@ class EndPage extends Component {
     super(props)
     this.state = {
       randomGIF: null,
-      quote: "quote",
-      author: "author",
+      quote: NFLquotes.nflQuoteData[Math.floor(Math.random() * 28)],
       userId: null
     }
   }
 
   componentDidMount() {
     this.randomMotivationGIF()
-    this.sportsQuoteOfTheDay()
     this.findTheUserID()
   }
 
@@ -63,19 +62,16 @@ class EndPage extends Component {
     )
   }
 
-  sportsQuoteOfTheDay = (query = "sports") => {
-    API.randomQuote(query).then(data =>
-      this.setState({
-        quote: data.contents.quotes[0].quote,
-        author: data.contents.quotes[0].author
-      })
-    )
+  renderQuoteTeam = () => {
+    if (this.state.quote.team) {
+      return ", of the " + this.state.quote.team
+    }
   }
 
   render() {
     return (
       <Container>
-        <h3>
+        <h2>
           {this.props.location.pathname === "/Win"
             ? "🍾 Congratulations you won"
             : "Commiserations you lost"}{" "}
@@ -85,13 +81,19 @@ class EndPage extends Component {
               this.props.currentGame.players[0].team
             ] +
             "!"}
-        </h3>
+        </h2>
         <Image src={this.state.randomGIF} size="huge" centered />
 
+        <h2>One last nugget of NFL legend advice: </h2>
         <h3>
-          <i> "{this.state.quote}" </i>
+          <i> "{this.state.quote.quote}" </i>
         </h3>
-        <h3> {this.state.author}</h3>
+        <h3>
+          {" "}
+          {this.state.quote.who}
+          {this.renderQuoteTeam()}
+        </h3>
+
         <Link to="/">
           <Button color="violet" fluid attached="bottom">
             Rinse and Repeat?!
@@ -106,20 +108,3 @@ class EndPage extends Component {
 }
 
 export default EndPage
-
-// Make a post request to Games with
-// fetch("http://localhost:3000/api/v1/cakes", {
-//     method: 'POST',
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Accept": "application/json"
-//     },
-//     body:JSON.stringify({
-//       "name": toyNameInput.value,
-//       "imgUrl": toyImageInput.value,
-//       "ingredient_ids": state.arrayOfIngredientIds
-//     })
-//   })
-//   .then(response => response.json())
-//   .then(r => state.newlyCreatedCake = r)
-//   .then(r => renderNewlyCreatedCake(state.newlyCreatedCake))

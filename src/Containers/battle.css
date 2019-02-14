@@ -19,7 +19,7 @@
 
 .visible {
   z-index: 100;
-  max-width: 100rem !important;
+  max-width: 300rem !important;
 }
 
 .maxZIndexheader {
