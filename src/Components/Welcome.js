@@ -11,6 +11,11 @@ class Welcome extends Component {
   }
 
   componentDidMount() {
+    API.validate().then(r => {
+      if (r.error) {
+        this.props.history.push("./Login");
+      }
+    });
     this.findTheUsers()
   }
 
