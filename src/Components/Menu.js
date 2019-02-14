@@ -18,7 +18,7 @@ export default class MenuExampleInverted extends Component {
           </Menu.Item>
         </Link>
 
-        <Menu.Item name="Ballers Fantasy Football Top Trumps by Paolo" />
+        <Menu.Item name="Ballers by Paolo" />
 
         <Menu.Menu position="right">
           <Link to="/Login">

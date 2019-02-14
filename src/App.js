@@ -12,6 +12,7 @@ import Game from "./Game-Logic/1game"
 import Player from "./Game-Logic/1player"
 import { SemanticToastContainer, toast } from "react-semantic-toasts"
 import "react-semantic-toasts/styles/react-semantic-alert.css"
+import { Segment } from "semantic-ui-react"
 
 class App extends Component {
   state = {
@@ -111,6 +112,7 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
+          <Segment>
           <Menu signOut={this.signOut} />
 
           <Switch>
@@ -187,7 +189,8 @@ class App extends Component {
             />
           </Switch>
           <SemanticToastContainer position="top-center" />
-        </React.Fragment>
+          </Segment>
+      </React.Fragment>
       </Router>
     )
   }
