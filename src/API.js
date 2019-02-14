@@ -2,25 +2,28 @@
 
 class API {
   static init() {
-    this.baseURL = "http://localhost:3000"
+    this.baseURL = "https://fantasy-football-top-trumps-bk.herokuapp.com"
     this.signinURL = this.baseURL + "/signin"
   }
 
   static signin(user) {
-    return fetch("http://localhost:3000/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: user.username,
-        password: user.password
-      })
-    }).then(resp => resp.json())
+    return fetch(
+      "https://fantasy-football-top-trumps-bk.herokuapp.com/signin",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: user.username,
+          password: user.password
+        })
+      }
+    ).then(resp => resp.json())
   }
 
   static createUser(user) {
-    return fetch("http://localhost:3000/users", {
+    return fetch("https://fantasy-football-top-trumps-bk.herokuapp.com/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -31,11 +34,14 @@ class API {
 
   static validate() {
     const token = localStorage.getItem("token")
-    return fetch("http://localhost:3000/validate", {
-      headers: {
-        Authorization: token
+    return fetch(
+      "https://fantasy-football-top-trumps-bk.herokuapp.com/validate",
+      {
+        headers: {
+          Authorization: token
+        }
       }
-    }).then(resp => resp.json())
+    ).then(resp => resp.json())
   }
 
   static randomGIF(query, number) {
@@ -56,11 +62,13 @@ class API {
   }
 
   static findUsers = () => {
-    return fetch("http://localhost:3000/users").then(r => r.json())
+    return fetch(
+      "https://fantasy-football-top-trumps-bk.herokuapp.com/users"
+    ).then(r => r.json())
   }
 
   static postResult = (iD, yourTeam, opponentTeam, won) => {
-    return fetch("http://localhost:3000/games", {
+    return fetch("https://fantasy-football-top-trumps-bk.herokuapp.com/games", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
