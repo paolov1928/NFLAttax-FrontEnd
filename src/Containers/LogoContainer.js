@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import NFLLogoCard from "../Components/NFLLogoCard"
-import { Card } from "semantic-ui-react"
+import { Card, Segment } from "semantic-ui-react"
 import * as usefulObjects from "../Data/usefulObjects"
 import InfiniteScroll from "react-infinite-scroll-component"
 
@@ -37,6 +37,7 @@ class LogoContainer extends Component {
   render() {
     return (
       <React.Fragment>
+        <Segment>
         <InfiniteScroll
           dataLength={this.state.teams.length}
           next={this.fetchMoreData}
@@ -54,6 +55,7 @@ class LogoContainer extends Component {
             ))}
           </Card.Group>
         </InfiniteScroll>
+        </Segment>
       </React.Fragment>
     )
   }

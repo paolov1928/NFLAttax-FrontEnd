@@ -37,3 +37,13 @@
 .fixFormWidth {
   max-width: 100rem !important;
 }
+
+.logoContainers {
+    word-wrap: break-word;
+    font-size: 0.59em;
+}
+
+.playerCardContainersOn {
+    word-wrap: break-word;
+    font-size: 0.59em;
+}
