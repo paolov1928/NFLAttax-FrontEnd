@@ -47,3 +47,8 @@
     word-wrap: break-word;
     font-size: 0.59em;
 }
+
+.rosterSegmentSmallerText {
+  word-wrap: break-word;
+  font-size: 0.55em !important;
+}

@@ -188,7 +188,7 @@ class App extends Component {
               )}
             />
           </Switch>
-          <SemanticToastContainer position="top-center" />
+          <SemanticToastContainer position="top-left" />
           </Segment>
       </React.Fragment>
       </Router>

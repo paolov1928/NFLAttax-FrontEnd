@@ -7,6 +7,7 @@ import NewPlayerCard from "../Components/NewPlayerCard"
 import RosterSegment from "../Components/RosterSegment"
 import { Card, Button, Header, Segment, Divider } from "semantic-ui-react"
 import API from "../API";
+import "./battle.css"
 
 class NewDataContainer extends Component {
   state = {
@@ -234,7 +235,7 @@ class NewDataContainer extends Component {
         {this.ifhandleToggle()}
         <Divider hidden />
         <Segment>
-          <Card.Group itemsPerRow={5}>
+          <Card.Group itemsPerRow={5} className='playerCardContainersOn'>
             {this.filterIfPickHasBeenMade().map(p => (
               <NewPlayerCard
                 {...p}

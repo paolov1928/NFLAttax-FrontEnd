@@ -97,8 +97,7 @@ class Login extends Component {
               />
             </Grid.Column>
           </Grid>
-
-          <Divider vertical>Or</Divider>
+      
         </React.Fragment>
       )
     } else {

@@ -3,6 +3,7 @@ import NFLLogoCard from "../Components/NFLLogoCard"
 import { Card, Segment } from "semantic-ui-react"
 import * as usefulObjects from "../Data/usefulObjects"
 import InfiniteScroll from "react-infinite-scroll-component"
+import "./battle.css"
 
 class LogoContainer extends Component {
   state = {
@@ -44,7 +45,7 @@ class LogoContainer extends Component {
           hasMore={true}
           loader={<h1>The NFL has 32 teams.... so here they are (again)</h1>}
         >
-          <Card.Group itemsPerRow={4}>
+          <Card.Group itemsPerRow={4} className="logoContainers">
             {this.state.teams.map((p, i) => (
               <NFLLogoCard
                 text={p}

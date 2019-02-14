@@ -1,5 +1,6 @@
 import React from "react"
 import { Grid, Header, Segment, Image } from "semantic-ui-react"
+import "../Containers/battle.css"
 
 const placeholderUrl =
   "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/PLACEHOLDER.png"
@@ -34,7 +35,7 @@ const ifStatement = (props, position) => {
 }
 
 const SelectedTeamAndPlayersGrid = props => (
-  <Segment placeholder attached>
+  <Segment placeholder attached className='rosterSegmentSmallerText'>
     <Grid columns={4} textAlign="center" divided>
       <Grid.Row verticalAlign="middle">
         <Grid.Column>
